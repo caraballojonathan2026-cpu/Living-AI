@@ -85,3 +85,27 @@ body{
     color:#a0a0a0;
     font-style:italic;
 }
+.topbar{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:15px;
+    background:#1b2430;
+}
+
+.avatar{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    background:#3b82f6;
+}
+
+.title{
+    font-size:22px;
+    font-weight:bold;
+}
+
+.status{
+    font-size:13px;
+    color:#9ca3af;
+}
