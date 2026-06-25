@@ -1,0 +1,36 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #0f172a;
+    color: white;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    padding: 20px;
+    text-align: center;
+}
+
+.subtitle {
+    color: #94a3b8;
+}
+
+.section {
+    padding: 20px;
+}
+
+.chat {
+    background: #1e293b;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+
+.button {
+    display: block;
+    margin: 20px;
+    padding: 15px;
+    text-align: center;
+    background: #2563eb;
+    border-radius: 10px;
+}
