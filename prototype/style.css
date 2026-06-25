@@ -51,3 +51,37 @@ a {
     padding: 10px 15px;
     border-radius: 10px;
 }
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#101418;
+    color:white;
+}
+
+.chat-container{
+    max-width:700px;
+    margin:auto;
+    padding:20px;
+}
+
+.message{
+    max-width:75%;
+    padding:12px;
+    border-radius:18px;
+    margin:10px 0;
+}
+
+.user{
+    background:#005c4b;
+    margin-left:auto;
+}
+
+.alma{
+    background:#222e35;
+    margin-right:auto;
+}
+
+.typing{
+    color:#a0a0a0;
+    font-style:italic;
+}
