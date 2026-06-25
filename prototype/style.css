@@ -34,3 +34,20 @@ header {
     background: #2563eb;
     border-radius: 10px;
 }
+a {
+    color: white;
+    text-decoration: none;
+}
+
+.nav {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    padding: 15px;
+}
+
+.nav-button {
+    background: #1e293b;
+    padding: 10px 15px;
+    border-radius: 10px;
+}
