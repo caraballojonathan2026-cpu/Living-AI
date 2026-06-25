@@ -1,56 +1,3 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #0f172a;
-    color: white;
-    margin: 0;
-    padding: 0;
-}
-
-header {
-    padding: 20px;
-    text-align: center;
-}
-
-.subtitle {
-    color: #94a3b8;
-}
-
-.section {
-    padding: 20px;
-}
-
-.chat {
-    background: #1e293b;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 10px;
-}
-
-.button {
-    display: block;
-    margin: 20px;
-    padding: 15px;
-    text-align: center;
-    background: #2563eb;
-    border-radius: 10px;
-}
-a {
-    color: white;
-    text-decoration: none;
-}
-
-.nav {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    padding: 15px;
-}
-
-.nav-button {
-    background: #1e293b;
-    padding: 10px 15px;
-    border-radius: 10px;
-}
 body{
     margin:0;
     font-family:Arial, sans-serif;
@@ -58,33 +5,6 @@ body{
     color:white;
 }
 
-.chat-container{
-    max-width:700px;
-    margin:auto;
-    padding:20px;
-}
-
-.message{
-    max-width:75%;
-    padding:12px;
-    border-radius:18px;
-    margin:10px 0;
-}
-
-.user{
-    background:#005c4b;
-    margin-left:auto;
-}
-
-.alma{
-    background:#222e35;
-    margin-right:auto;
-}
-
-.typing{
-    color:#a0a0a0;
-    font-style:italic;
-}
 .topbar{
     display:flex;
     align-items:center;
@@ -97,7 +17,7 @@ body{
     width:45px;
     height:45px;
     border-radius:50%;
-    background:#3b82f6;
+    background:#4da3ff;
 }
 
 .title{
@@ -107,5 +27,33 @@ body{
 
 .status{
     font-size:13px;
+    color:#b8c2cc;
+}
+
+.search{
+    margin:15px;
+    padding:12px;
+    background:#202830;
+    border-radius:12px;
     color:#9ca3af;
+}
+
+.section{
+    margin:15px;
+}
+
+.chat{
+    padding:12px;
+    margin-top:8px;
+    background:#202830;
+    border-radius:12px;
+}
+
+.chat-title{
+    font-weight:bold;
+}
+
+.chat-subtitle{
+    color:#b8c2cc;
+    font-size:14px;
 }
