@@ -17,8 +17,9 @@ body{
     width:50px;
     height:50px;
     border-radius:50%;
-    background:#2d6cff;
     margin-right:12px;
+    object-fit:cover;
+    background:#2d6cff;
 }
 
 .title{
