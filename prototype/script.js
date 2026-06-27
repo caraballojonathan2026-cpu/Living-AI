@@ -6,7 +6,7 @@ app.innerHTML = `
 
 <div class="topbar">
 
-<div class="avatar"></div>
+<img class="avatar" src="assets/images/avatar.png">
 
 <div>
 
@@ -31,8 +31,7 @@ Soy Alma.
 </p>
 
 <p>
-Todavía estoy en desarrollo,
-pero cada día aprendo un poco más.
+Todavía estoy en desarrollo.
 </p>
 
 <button id="nuevoChat">
@@ -44,6 +43,62 @@ Nuevo chat
 </div>
 
 `;
+
+document
+.getElementById("nuevoChat")
+.onclick = mostrarChat;
+
+}
+
+function mostrarChat(){
+
+app.innerHTML = `
+
+<div class="topbar">
+
+<img class="avatar" src="assets/images/avatar.png">
+
+<div>
+
+<div class="title">
+Alma
+</div>
+
+<div class="status">
+Pensando...
+</div>
+
+</div>
+
+</div>
+
+<div class="chat-container">
+
+<div class="message alma">
+
+Hola.
+
+</div>
+
+<div class="typing">
+
+•••
+
+</div>
+
+<button id="volver">
+
+Volver
+
+</button>
+
+</div>
+
+`;
+
+document
+.getElementById("volver")
+.onclick = mostrarInicio;
 
 }
 
