@@ -1,30 +1,23 @@
-function crearTopBar(estado){
+function crearTopBar(estado) {
 
-return `
+    return `
+        <div class="topbar">
 
-<div class="topbar">
+            <div class="avatar"></div>
 
-<img class="avatar"
-src="assets/images/avatar.png">
+            <div>
 
-<div>
+                <div class="title">
+                    Alma
+                </div>
 
-<div class="title">
+                <div class="status">
+                    ${estado}
+                </div>
 
-Alma
+            </div>
 
-</div>
-
-<div class="status">
-
-${estado}
-
-</div>
-
-</div>
-
-</div>
-
-`;
+        </div>
+    `;
 
 }
