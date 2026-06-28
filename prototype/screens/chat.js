@@ -4,6 +4,11 @@ function mostrarChat() {
 
         ${crearTopBar("Pensando...")}
 
+function enviarMensaje(){
+
+    alert("¡Funciona!");
+
+}
         <div class="chat-container">
 
             <div class="message alma">
@@ -27,13 +32,14 @@ function mostrarChat() {
         <div class="input-area">
 
             <input
-                type="text"
-                placeholder="Escribe un mensaje..."
-            >
+    id="mensaje"
+    type="text"
+    placeholder="Escribe un mensaje..."
+>
 
-            <button>
-                Enviar
-            </button>
+<button onclick="enviarMensaje()">
+    Enviar
+</button>
 
         </div>
 
