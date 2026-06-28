@@ -4,11 +4,7 @@ function mostrarChat() {
 
         ${crearTopBar("Pensando...")}
 
-function enviarMensaje(){
 
-    alert("¡Funciona!");
-
-}
         <div class="chat-container">
 
             <div class="message alma">
@@ -44,5 +40,10 @@ function enviarMensaje(){
         </div>
 
     `;
+
+}
+function enviarMensaje(){
+
+    alert("¡Funciona!");
 
 }
