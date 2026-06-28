@@ -1,3 +1,13 @@
+let mensajes = [
+    {
+        autor: "alma",
+        texto: "Hola. Soy Alma."
+    },
+    {
+        autor: "alma",
+        texto: "¿Qué te gustaría hacer hoy?"
+    }
+];
 function mostrarChat() {
 
     app.innerHTML = `
