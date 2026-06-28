@@ -9,7 +9,17 @@ let mensajes = [
     }
 ];
 function mostrarChat() {
+let htmlMensajes = "";
 
+for(const mensaje of mensajes){
+
+    htmlMensajes += `
+        <div class="message ${mensaje.autor}">
+            ${mensaje.texto}
+        </div>
+    `;
+
+}
     app.innerHTML = `
 
         ${crearTopBar("Pensando...")}
@@ -17,17 +27,7 @@ function mostrarChat() {
 
         <div class="chat-container">
 
-            <div class="message alma">
-                Hola. Soy Alma.
-            </div>
-
-            <div class="message user">
-                Hola.
-            </div>
-
-            <div class="message alma">
-                ¿Qué te gustaría hacer hoy?
-            </div>
+            ${htmlMensajes}
 
             <div class="typing">
                 •••
