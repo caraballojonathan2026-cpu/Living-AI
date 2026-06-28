@@ -44,6 +44,22 @@ function mostrarChat() {
 }
 function enviarMensaje(){
 
-    alert("¡Funciona!");
+    const caja = document.getElementById("mensaje");
+
+    const texto = caja.value.trim();
+
+    if(texto === ""){
+        return;
+    }
+
+    const chat = document.querySelector(".chat-container");
+
+    chat.innerHTML += `
+        <div class="message user">
+            ${texto}
+        </div>
+    `;
+
+    caja.value = "";
 
 }
