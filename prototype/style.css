@@ -310,3 +310,27 @@ cursor:pointer;
     font-style:italic;
 
 }
+.message{
+
+    animation: aparecer 0.25s ease;
+
+}
+@keyframes aparecer{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(10px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
