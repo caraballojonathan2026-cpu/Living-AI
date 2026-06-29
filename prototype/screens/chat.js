@@ -60,7 +60,7 @@ function enviarMensaje(){
 
    agregarMensaje("user", texto);
 
-    const respuesta = obtenerRespuesta(texto);
+    caja.value = "";
 
 caja.value = "";
 
@@ -79,7 +79,7 @@ estadoAlma = "Disponible";
 mostrarChat();
 
 }, 600);
-    }
+}
 function renderMensajes(){
 
     let html = "";
@@ -99,9 +99,6 @@ function renderMensajes(){
 }
 function agregarMensaje(autor, texto){
 
-    mensajes.push({
-        autor: autor,
-        texto: texto
-    });
+   agregarMensaje("user", texto);
 
 }
