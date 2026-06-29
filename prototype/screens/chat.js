@@ -13,17 +13,7 @@ let mensajes = [
     }
 ];
 function mostrarChat() {
-let htmlMensajes = "";
-
-for(const mensaje of mensajes){
-
-    htmlMensajes += `
-        <div class="message ${mensaje.autor}">
-            ${mensaje.texto}
-        </div>
-    `;
-
-}
+const htmlMensajes = renderMensajes();
     app.innerHTML = `
 
         ${crearTopBar("Pensando...")}
@@ -72,13 +62,35 @@ function enviarMensaje(){
 
     const respuesta = obtenerRespuesta(texto);
 
-mensajes.push({
-    autor: "alma",
-    texto: respuesta
-});
+agregarMensaje("user", texto);
     
     caja.value = "";
 
     mostrarChat();
+
+}
+function renderMensajes(){
+
+    let html = "";
+
+    for(const mensaje of mensajes){
+
+        html += `
+            <div class="message ${mensaje.autor}">
+                ${mensaje.texto}
+            </div>
+        `;
+
+    }
+
+    return html;
+
+}
+function agregarMensaje(autor, texto){
+
+    mensajes.push({
+        autor: autor,
+        texto: texto
+    });
 
 }
