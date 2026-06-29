@@ -12,11 +12,14 @@ let mensajes = [
         texto: "¿Qué te gustaría hacer hoy?"
     }
 ];
+
+let estadoAlma = "Disponible";
+
 function mostrarChat() {
 const htmlMensajes = renderMensajes();
     app.innerHTML = `
 
-        ${crearTopBar("Pensando...")}
+        ${crearTopBar(estadoAlma)}
 
 
         <div class="chat-container">
@@ -64,15 +67,19 @@ function enviarMensaje(){
 
 caja.value = "";
 
+estadoAlma = "Pensando...";
+
 mostrarChat();
 
 setTimeout(() => {
 
     const respuesta = obtenerRespuesta(texto);
 
-    agregarMensaje("alma", respuesta);
+   agregarMensaje("alma", respuesta);
 
-    mostrarChat();
+estadoAlma = "Disponible";
+
+mostrarChat();
 
 }, 600);
 function renderMensajes(){
