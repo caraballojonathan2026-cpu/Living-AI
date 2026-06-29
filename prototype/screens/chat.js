@@ -1,3 +1,4 @@
+```javascript
 let mensajes = [
     {
         autor: "alma",
@@ -16,11 +17,12 @@ let mensajes = [
 let estadoAlma = "Disponible";
 
 function mostrarChat() {
-const htmlMensajes = renderMensajes();
+
+    const htmlMensajes = renderMensajes();
+
     app.innerHTML = `
 
         ${crearTopBar(estadoAlma)}
-
 
         <div class="chat-container">
 
@@ -35,20 +37,21 @@ const htmlMensajes = renderMensajes();
         <div class="input-area">
 
             <input
-    id="mensaje"
-    type="text"
-    placeholder="Escribe un mensaje..."
->
+                id="mensaje"
+                type="text"
+                placeholder="Escribe un mensaje..."
+            >
 
-<button onclick="enviarMensaje()">
-    Enviar
-</button>
+            <button onclick="enviarMensaje()">
+                Enviar
+            </button>
 
         </div>
 
     `;
 
 }
+
 function enviarMensaje(){
 
     const caja = document.getElementById("mensaje");
@@ -58,28 +61,28 @@ function enviarMensaje(){
         return;
     }
 
-   agregarMensaje("user", texto);
+    agregarMensaje("user", texto);
 
     caja.value = "";
 
-caja.value = "";
+    estadoAlma = "Pensando...";
 
-estadoAlma = "Pensando...";
+    mostrarChat();
 
-mostrarChat();
+    setTimeout(() => {
 
-setTimeout(() => {
+        const respuesta = obtenerRespuesta(texto);
 
-    const respuesta = obtenerRespuesta(texto);
+        agregarMensaje("alma", respuesta);
 
-   agregarMensaje("alma", respuesta);
+        estadoAlma = "Disponible";
 
-estadoAlma = "Disponible";
+        mostrarChat();
 
-mostrarChat();
+    }, 600);
 
-}, 600);
 }
+
 function renderMensajes(){
 
     let html = "";
@@ -97,8 +100,13 @@ function renderMensajes(){
     return html;
 
 }
+
 function agregarMensaje(autor, texto){
 
-   agregarMensaje("user", texto);
+    mensajes.push({
+        autor: autor,
+        texto: texto
+    });
 
 }
+```
