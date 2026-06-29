@@ -58,10 +58,7 @@ function enviarMensaje(){
         return;
     }
 
-    mensajes.push({
-        autor: "user",
-        texto: texto
-    });
+   agregarMensaje("user", texto);
 
     const respuesta = obtenerRespuesta(texto);
 
@@ -82,6 +79,7 @@ estadoAlma = "Disponible";
 mostrarChat();
 
 }, 600);
+    }
 function renderMensajes(){
 
     let html = "";
