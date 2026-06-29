@@ -66,6 +66,13 @@ function enviarMensaje(){
         texto: texto
     });
 
+    const respuesta = obtenerRespuesta(texto);
+
+mensajes.push({
+    autor: "alma",
+    texto: respuesta
+});
+    
     caja.value = "";
 
     mostrarChat();
