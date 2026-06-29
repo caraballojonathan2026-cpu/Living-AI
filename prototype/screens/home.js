@@ -1,39 +1,38 @@
 function mostrarInicio() {
 
-    app.innerHTML = `
+   app.innerHTML = `
 
-        <div class="topbar">
+    ${crearTopBar("Disponible")}
 
-            <div class="avatar"></div>
+    <div class="screen">
 
-            <div>
-
-                <div class="title">
-                    Alma
-                </div>
-
-                <div class="status">
-                    Una misión: preservar lo que importa.
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="screen">
+        <div class="welcome">
 
             <h1>Living AI</h1>
 
             <p>
-                Bienvenido.
+                Una misión:
+                preservar lo que importa.
             </p>
-
-            <button onclick="mostrarChat()">
-                Abrir chat
-            </button>
 
         </div>
 
-    `;
+        <button onclick="mostrarChat()">
+            + Nuevo chat
+        </button>
+
+        <div class="chat-list">
+
+            <h3>Chats</h3>
+
+            <p class="empty">
+                Todavía no hay conversaciones.
+            </p>
+
+        </div>
+
+    </div>
+
+`;
 
 }
