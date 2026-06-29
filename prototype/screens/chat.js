@@ -4,6 +4,10 @@ let mensajes = [
         texto: "Hola. Soy Alma."
     },
     {
+        autor: "user",
+        texto: "Hola."
+    },
+    {
         autor: "alma",
         texto: "¿Qué te gustaría hacer hoy?"
     }
