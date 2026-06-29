@@ -55,21 +55,19 @@ for(const mensaje of mensajes){
 function enviarMensaje(){
 
     const caja = document.getElementById("mensaje");
-
     const texto = caja.value.trim();
 
     if(texto === ""){
         return;
     }
 
-    const chat = document.querySelector(".chat-container");
-
-    chat.innerHTML += `
-        <div class="message user">
-            ${texto}
-        </div>
-    `;
+    mensajes.push({
+        autor: "user",
+        texto: texto
+    });
 
     caja.value = "";
+
+    mostrarChat();
 
 }
