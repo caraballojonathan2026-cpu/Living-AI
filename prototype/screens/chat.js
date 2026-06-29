@@ -62,13 +62,19 @@ function enviarMensaje(){
 
     const respuesta = obtenerRespuesta(texto);
 
-agregarMensaje("user", texto);
-    
-    caja.value = "";
+caja.value = "";
+
+mostrarChat();
+
+setTimeout(() => {
+
+    const respuesta = obtenerRespuesta(texto);
+
+    agregarMensaje("alma", respuesta);
 
     mostrarChat();
 
-}
+}, 600);
 function renderMensajes(){
 
     let html = "";
