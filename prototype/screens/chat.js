@@ -1,4 +1,6 @@
 ```javascript
+console.log("CHAT NUEVO CARGADO");
+
 let mensajes = [
     {
         autor: "alma",
