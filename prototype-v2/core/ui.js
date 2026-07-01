@@ -4,13 +4,21 @@ function crearTopBar(estado){
 
         <header class="topbar">
 
-            <div class="topbar-avatar"></div>
+            <div class="avatar"></div>
 
             <div>
 
-                <h2>Alma</h2>
+                <div class="title">
 
-                <p>${estado}</p>
+                    Alma
+
+                </div>
+
+                <div class="status">
+
+                    ${estado}
+
+                </div>
 
             </div>
 
