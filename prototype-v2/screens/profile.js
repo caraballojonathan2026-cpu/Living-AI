@@ -4,13 +4,17 @@ function mostrarPerfil(){
 
         ${crearTopBar("Perfil")}
 
-        <main>
+        <main class="screen">
 
-            <h1>Perfil</h1>
+            <h1>
+
+                Perfil
+
+            </h1>
 
             <p>
 
-                Esta pantalla estará disponible más adelante.
+                Próximamente.
 
             </p>
 
