@@ -7,7 +7,6 @@
 body{
 
     background:#0d1117;
-
     color:white;
 
     font-family:
@@ -20,7 +19,6 @@ body{
 button{
 
     font:inherit;
-
     cursor:pointer;
 
 }
@@ -28,11 +26,226 @@ button{
 input{
 
     font:inherit;
+    outline:none;
 
 }
 
 #app{
 
     min-height:100vh;
+
+}
+
+/* =========================
+   TOP BAR
+========================= */
+
+.topbar{
+
+    height:90px;
+
+    background:#15254d;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:16px;
+
+    padding:20px;
+
+}
+
+.avatar{
+
+    width:60px;
+
+    height:60px;
+
+    border-radius:50%;
+
+    background:#3b82f6;
+
+}
+
+.title{
+
+    font-size:22px;
+
+    font-weight:bold;
+
+}
+
+.status{
+
+    color:#d0d6e6;
+
+    margin-top:4px;
+
+}
+
+/* =========================
+   HOME
+========================= */
+
+.screen{
+
+    padding:40px 30px;
+
+}
+
+.welcome{
+
+    text-align:center;
+
+    margin-bottom:40px;
+
+}
+
+.welcome h1{
+
+    font-size:56px;
+
+    margin-bottom:20px;
+
+}
+
+.welcome p{
+
+    font-size:26px;
+
+    color:#c0c0c0;
+
+}
+
+.screen button{
+
+    width:100%;
+
+    height:58px;
+
+    border:none;
+
+    border-radius:16px;
+
+    background:#3b82f6;
+
+    color:white;
+
+    font-size:22px;
+
+    margin-bottom:40px;
+
+}
+
+.chat-list{
+
+    background:#1e1e1e;
+
+    border-radius:20px;
+
+    padding:24px;
+
+}
+
+.chat-list h3{
+
+    font-size:34px;
+
+    margin-bottom:18px;
+
+}
+
+.empty{
+
+    color:#aaaaaa;
+
+    font-style:italic;
+
+}
+
+/* =========================
+   CHAT
+========================= */
+
+.chat-container{
+
+    padding:20px;
+
+    min-height:65vh;
+
+}
+
+.message{
+
+    padding:14px 18px;
+
+    border-radius:18px;
+
+    margin-bottom:16px;
+
+    width:max-content;
+
+    max-width:75%;
+
+}
+
+.alma{
+
+    background:#5b3fd8;
+
+}
+
+.user{
+
+    background:#3b82f6;
+
+    margin-left:auto;
+
+}
+
+.typing{
+
+    color:#888;
+
+    margin-top:8px;
+
+}
+
+.input-area{
+
+    display:flex;
+
+    gap:10px;
+
+    padding:18px;
+
+}
+
+.input-area input{
+
+    flex:1;
+
+    height:52px;
+
+    border:none;
+
+    border-radius:14px;
+
+    padding:0 16px;
+
+}
+
+.input-area button{
+
+    width:120px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:#3b82f6;
+
+    color:white;
 
 }
