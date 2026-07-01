@@ -1,21 +1,27 @@
 function mostrarInicio(){
 
-    pantallaActual = "home";
-
     app.innerHTML = `
 
         ${crearTopBar("Disponible")}
 
-        <main class="home">
+        <main class="screen">
 
-            <h1>Living AI</h1>
+            <div class="welcome">
 
-            <p>
+                <h1>
 
-                Una misión:
-                preservar lo que importa.
+                    Living AI
 
-            </p>
+                </h1>
+
+                <p>
+
+                    Una misión:
+                    preservar lo que importa.
+
+                </p>
+
+            </div>
 
             <button id="nuevoChat">
 
@@ -25,11 +31,19 @@ function mostrarInicio(){
 
             <section class="chat-list">
 
-                <h3>Chats</h3>
+                <h3>
 
-                <p>
+                    Chats
 
-                    Todavía no hay conversaciones.
+                </h3>
+
+                <p class="empty">
+
+                    Todavía no hay nada.
+
+                    <br><br>
+
+                    Rompe el cielo.
 
                 </p>
 
