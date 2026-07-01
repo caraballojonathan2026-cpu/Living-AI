@@ -1,6 +1,5 @@
 ```javascript
 console.log("CHAT NUEVO CARGADO");
-window.mostrarChat = mostrarChat;
 
 let mensajes = [
     {
@@ -31,9 +30,7 @@ function mostrarChat() {
 
             ${htmlMensajes}
 
-            <div class="typing">
-                •••
-            </div>
+            <div class="typing">•••</div>
 
         </div>
 
@@ -74,9 +71,7 @@ function enviarMensaje(){
 
     setTimeout(() => {
 
-        const respuesta = obtenerRespuesta(texto);
-
-        agregarMensaje("alma", respuesta);
+        agregarMensaje("alma", obtenerRespuesta(texto));
 
         estadoAlma = "Disponible";
 
@@ -107,28 +102,9 @@ function renderMensajes(){
 function agregarMensaje(autor, texto){
 
     mensajes.push({
-        autor: autor,
-        texto: texto
+        autor,
+        texto
     });
 
-}
-
-function obtenerRespuesta(texto){
-
-    texto = texto.toLowerCase();
-
-    if(texto.includes("hola")){
-        return "¡Hola! Me alegra verte.";
-    }
-
-    if(texto.includes("adiós") || texto.includes("adios")){
-        return "Hasta luego.";
-    }
-
-    if(texto.includes("gracias")){
-        return "De nada.";
-    }
-
-    return "Todavía estoy aprendiendo a conversar.";
 }
 ```
