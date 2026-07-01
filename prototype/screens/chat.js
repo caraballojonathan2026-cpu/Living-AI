@@ -1,5 +1,6 @@
 ```javascript
 console.log("CHAT NUEVO CARGADO");
+window.mostrarChat = mostrarChat;
 
 let mensajes = [
     {
