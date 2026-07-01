@@ -1,27 +1,32 @@
-let mensajes = [];
+let mensajes = [
+
+    {
+
+        autor:"alma",
+
+        texto:"Hola. Soy Alma."
+
+    },
+
+    {
+
+        autor:"alma",
+
+        texto:"¿Qué te gustaría hacer hoy?"
+
+    }
+
+];
 
 let estadoAlma = "Disponible";
 
 function mostrarChat(){
 
-    pantallaActual = "chat";
-
-    mensajes = [
-        {
-            autor: "alma",
-            texto: "Hola. Soy Alma."
-        },
-        {
-            autor: "alma",
-            texto: "¿Qué te gustaría hacer hoy?"
-        }
-    ];
-
-    renderChat();
+    renderizarChat();
 
 }
 
-function renderChat(){
+function renderizarChat(){
 
     let htmlMensajes = "";
 
@@ -29,8 +34,10 @@ function renderChat(){
 
         htmlMensajes += `
 
-            <div class="mensaje ${mensaje.autor}">
+            <div class="message ${mensaje.autor}">
+
                 ${mensaje.texto}
+
             </div>
 
         `;
@@ -41,31 +48,37 @@ function renderChat(){
 
         ${crearTopBar(estadoAlma)}
 
-        <main class="chat">
+        <div class="chat-container">
 
-            <div class="mensajes">
+            ${htmlMensajes}
 
-                ${htmlMensajes}
+            <div class="typing">
 
-            </div>
-
-            <div class="input-area">
-
-                <input
-                    id="mensaje"
-                    type="text"
-                    placeholder="Escribe un mensaje..."
-                >
-
-                <button id="enviar">
-
-                    Enviar
-
-                </button>
+                •••
 
             </div>
 
-        </main>
+        </div>
+
+        <div class="input-area">
+
+            <input
+
+                id="mensaje"
+
+                type="text"
+
+                placeholder="Escribe un mensaje..."
+
+            >
+
+            <button id="enviar">
+
+                Enviar
+
+            </button>
+
+        </div>
 
     `;
 
@@ -82,34 +95,39 @@ function enviarMensaje(){
     const texto = caja.value.trim();
 
     if(texto === ""){
+
         return;
+
     }
 
     mensajes.push({
-        autor: "user",
-        texto: texto
-    });
 
-    caja.value = "";
+        autor:"user",
+
+        texto:texto
+
+    });
 
     estadoAlma = "Pensando...";
 
-    renderChat();
+    renderizarChat();
 
-    setTimeout(() => {
+    caja.value = "";
+
+    setTimeout(()=>{
 
         mensajes.push({
 
-            autor: "alma",
+            autor:"alma",
 
-            texto: obtenerRespuesta(texto)
+            texto:obtenerRespuesta(texto)
 
         });
 
         estadoAlma = "Disponible";
 
-        renderChat();
+        renderizarChat();
 
-    },600);
+    },700);
 
 }
