@@ -1,5 +1,45 @@
 function mostrarInicio(){
 
+    let listaHTML = "";
+
+    if(conversaciones.length === 0){
+
+        listaHTML = `
+
+            <p class="empty">
+
+                Todavía no hay nada.
+
+                <br><br>
+
+                Rompe el cielo.
+
+            </p>
+
+        `;
+
+    }
+
+    else{
+
+        conversaciones.forEach((chat,index)=>{
+
+            listaHTML += `
+
+                <button
+                    class="chat-item"
+                    data-id="${index}">
+
+                    ${chat.nombre}
+
+                </button>
+
+            `;
+
+        });
+
+    }
+
     app.innerHTML = `
 
         ${crearTopBar("Disponible")}
@@ -37,15 +77,7 @@ function mostrarInicio(){
 
                 </h3>
 
-                <p class="empty">
-
-                    Todavía no hay nada.
-
-                    <br><br>
-
-                    Rompe el cielo.
-
-                </p>
+                ${listaHTML}
 
             </section>
 
@@ -55,6 +87,18 @@ function mostrarInicio(){
 
     document
         .getElementById("nuevoChat")
-        .addEventListener("click", mostrarChat);
+        .addEventListener("click",()=>{
+
+            conversaciones.push({
+
+                nombre:
+                "Conversación " +
+                (conversaciones.length+1)
+
+            });
+
+            mostrarInicio();
+
+        });
 
 }
