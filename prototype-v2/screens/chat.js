@@ -120,7 +120,7 @@ function enviarMensaje(){
 
             autor:"alma",
 
-            texto:obtenerRespuesta(texto)
+            texto:Alma.responder(texto)
 
         });
 
