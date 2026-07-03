@@ -72,7 +72,7 @@ function renderizarChat(){
 
     document
         .getElementById("enviar")
-        .addEventListener("click", enviarMensaje);
+        .addEventListener("click", Navigation.home);
 
 }
 
