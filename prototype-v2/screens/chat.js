@@ -6,9 +6,19 @@ function mostrarChat(){
 
 function renderizarChat(){
 
+    const chat = ConversationManager.actualChat();
+
+    if(!chat){
+
+        Navigation.home();
+
+        return;
+
+    }
+
     let htmlMensajes = "";
 
-    for(const mensaje of conversacionActual.mensajes){
+    for(const mensaje of chat.mensajes){
 
         htmlMensajes += `
 
@@ -29,12 +39,6 @@ function renderizarChat(){
         <div class="chat-container">
 
             ${htmlMensajes}
-
-            <div class="typing">
-
-                •••
-
-            </div>
 
         </div>
 
@@ -68,11 +72,11 @@ function renderizarChat(){
 
     document
         .getElementById("volver")
-        .addEventListener("click", mostrarInicio);
+        .addEventListener("click", Navigation.home);
 
     document
         .getElementById("enviar")
-        .addEventListener("click", Navigation.home);
+        .addEventListener("click", enviarMensaje);
 
 }
 
@@ -88,25 +92,27 @@ function enviarMensaje(){
 
     }
 
-    conversacionActual.mensajes.push({
+    ConversationManager.agregarMensaje(
 
-        autor:"user",
+        "user",
 
-        texto:texto
+        texto
 
-    });
+    );
 
     renderizarChat();
 
+    caja.value = "";
+
     setTimeout(()=>{
 
-        conversacionActual.mensajes.push({
+        ConversationManager.agregarMensaje(
 
-            autor:"alma",
+            "alma",
 
-            texto:Alma.responder(texto)
+            Alma.responder(texto)
 
-        });
+        );
 
         renderizarChat();
 
