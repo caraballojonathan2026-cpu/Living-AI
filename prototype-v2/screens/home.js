@@ -1,10 +1,10 @@
 function mostrarInicio(){
 
-    let listaHTML = "";
+    let listaChats = "";
 
     if(conversaciones.length === 0){
 
-        listaHTML = `
+        listaChats = `
 
             <p class="empty">
 
@@ -22,15 +22,19 @@ function mostrarInicio(){
 
     else{
 
-        conversaciones.forEach((chat,index)=>{
+        conversaciones.forEach(chat=>{
 
-            listaHTML += `
+            listaChats += `
 
                 <button
-                    class="chat-item"
-                    data-id="${index}">
 
-                    ${chat.nombre}
+                    class="chat-item"
+
+                    onclick="abrirConversacion(${chat.id})"
+
+                >
+
+                    💬 ${chat.nombre}
 
                 </button>
 
@@ -57,6 +61,7 @@ function mostrarInicio(){
                 <p>
 
                     Una misión:
+
                     preservar lo que importa.
 
                 </p>
@@ -77,7 +82,7 @@ function mostrarInicio(){
 
                 </h3>
 
-                ${listaHTML}
+                ${listaChats}
 
             </section>
 
@@ -86,19 +91,15 @@ function mostrarInicio(){
     `;
 
     document
+
         .getElementById("nuevoChat")
-        .addEventListener("click",()=>{
 
-            conversaciones.push({
+        .addEventListener(
 
-                nombre:
-                "Conversación " +
-                (conversaciones.length+1)
+            "click",
 
-            });
+            crearNuevaConversacion
 
-            mostrarInicio();
-
-        });
+        );
 
 }
