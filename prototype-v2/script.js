@@ -64,8 +64,8 @@ function abrirConversacion(id){
 
     );
 
-    mostrarChat();
+    Navigation.chat();
 
 }
 
-mostrarInicio();
+Navigation.home();
