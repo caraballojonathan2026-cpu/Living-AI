@@ -1,38 +1,30 @@
 function mostrarInicio(){
 
-    let listaChats = "";
+    const conversaciones = ConversationManager.todas();
+
+    let lista = "";
 
     if(conversaciones.length === 0){
 
-        listaChats = `
+        lista = `
 
             <p class="empty">
 
-                Todavía no hay nada.
-
-                <br><br>
-
-                Rompe el cielo.
+                Todavía no hay conversaciones.
 
             </p>
 
         `;
 
-    }
-
-    else{
+    }else{
 
         conversaciones.forEach(chat=>{
 
-            listaChats += `
+            lista += `
 
                 <button
-
                     class="chat-item"
-
-                    onclick="abrirConversacion(${chat.id})"
-
-                >
+                    onclick="abrirChat(${chat.id})">
 
                     💬 ${chat.nombre}
 
@@ -48,15 +40,11 @@ function mostrarInicio(){
 
         ${crearTopBar("Disponible")}
 
-        <main class="screen">
+        <div class="screen">
 
             <div class="welcome">
 
-                <h1>
-
-                    Living AI
-
-                </h1>
+                <h1>Living AI</h1>
 
                 <p>
 
@@ -74,32 +62,34 @@ function mostrarInicio(){
 
             </button>
 
-            <section class="chat-list">
+            <div class="chat-list">
 
-                <h3>
+                <h3>Chats</h3>
 
-                    Chats
+                ${lista}
 
-                </h3>
+            </div>
 
-                ${listaChats}
-
-            </section>
-
-        </main>
+        </div>
 
     `;
 
     document
-
         .getElementById("nuevoChat")
+        .addEventListener("click", ()=>{
 
-        .addEventListener(
+            ConversationManager.crear();
 
-            "click",
+            Navigation.chat();
 
-            crearNuevaConversacion
+        });
 
-        );
+}
+
+function abrirChat(id){
+
+    ConversationManager.abrir(id);
+
+    Navigation.chat();
 
 }
