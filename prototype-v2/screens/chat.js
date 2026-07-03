@@ -1,25 +1,3 @@
-let mensajes = [
-
-    {
-
-        autor:"alma",
-
-        texto:"Hola. Soy Alma."
-
-    },
-
-    {
-
-        autor:"alma",
-
-        texto:"¿Qué te gustaría hacer hoy?"
-
-    }
-
-];
-
-let estadoAlma = "Disponible";
-
 function mostrarChat(){
 
     renderizarChat();
@@ -30,7 +8,7 @@ function renderizarChat(){
 
     let htmlMensajes = "";
 
-    for(const mensaje of mensajes){
+    for(const mensaje of conversacionActual.mensajes){
 
         htmlMensajes += `
 
@@ -46,7 +24,7 @@ function renderizarChat(){
 
     app.innerHTML = `
 
-        ${crearTopBar(estadoAlma)}
+        ${crearTopBar("Disponible")}
 
         <div class="chat-container">
 
@@ -61,6 +39,12 @@ function renderizarChat(){
         </div>
 
         <div class="input-area">
+
+            <button id="volver">
+
+                ←
+
+            </button>
 
             <input
 
@@ -83,6 +67,10 @@ function renderizarChat(){
     `;
 
     document
+        .getElementById("volver")
+        .addEventListener("click", mostrarInicio);
+
+    document
         .getElementById("enviar")
         .addEventListener("click", enviarMensaje);
 
@@ -100,7 +88,7 @@ function enviarMensaje(){
 
     }
 
-    mensajes.push({
+    conversacionActual.mensajes.push({
 
         autor:"user",
 
@@ -108,23 +96,17 @@ function enviarMensaje(){
 
     });
 
-    estadoAlma = "Pensando...";
-
     renderizarChat();
-
-    caja.value = "";
 
     setTimeout(()=>{
 
-        mensajes.push({
+        conversacionActual.mensajes.push({
 
             autor:"alma",
 
             texto:Alma.responder(texto)
 
         });
-
-        estadoAlma = "Disponible";
 
         renderizarChat();
 
