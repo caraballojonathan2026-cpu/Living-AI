@@ -4,9 +4,26 @@ function crearTopBar(estado){
 
         <header class="topbar">
 
-            <div class="avatar"></div>
+            <div class="topbar-left">
 
-            <div>
+                <button
+                    id="backButton"
+                    class="back-button"
+                    style="display:none">
+
+                    ←
+
+                </button>
+
+                <div class="avatar">
+
+                    ○
+
+                </div>
+
+            </div>
+
+            <div class="topbar-info">
 
                 <div class="title">
 
@@ -25,5 +42,37 @@ function crearTopBar(estado){
         </header>
 
     `;
+
+}
+
+function mostrarBotonAtras(callback){
+
+    const boton = document.getElementById("backButton");
+
+    if(!boton){
+
+        return;
+
+    }
+
+    boton.style.display = "flex";
+
+    boton.onclick = callback;
+
+}
+
+function ocultarBotonAtras(){
+
+    const boton = document.getElementById("backButton");
+
+    if(!boton){
+
+        return;
+
+    }
+
+    boton.style.display = "none";
+
+    boton.onclick = null;
 
 }
