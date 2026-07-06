@@ -7,18 +7,17 @@
 body{
 
     background:#0d1117;
+
     color:white;
 
-    font-family:
-    Arial,
-    Helvetica,
-    sans-serif;
+    font-family:Arial,Helvetica,sans-serif;
 
 }
 
 button{
 
     font:inherit;
+
     cursor:pointer;
 
 }
@@ -26,7 +25,6 @@ button{
 input{
 
     font:inherit;
-    outline:none;
 
 }
 
@@ -36,41 +34,81 @@ input{
 
 }
 
-/* =========================
-   TOP BAR
-========================= */
+/* ---------- TOPBAR ---------- */
 
 .topbar{
 
-    height:90px;
-
-    background:#15254d;
+    height:72px;
 
     display:flex;
 
     align-items:center;
 
-    gap:16px;
+    gap:14px;
 
-    padding:20px;
+    padding:0 18px;
+
+    background:#161b22;
+
+    border-bottom:1px solid #30363d;
+
+}
+
+.topbar-left{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+.back-button{
+
+    width:38px;
+
+    height:38px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#2383e2;
+
+    color:white;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:18px;
 
 }
 
 .avatar{
 
-    width:60px;
+    width:42px;
 
-    height:60px;
+    height:42px;
 
     border-radius:50%;
 
-    background:#3b82f6;
+    background:#2d333b;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:22px;
 
 }
 
 .title{
-
-    font-size:22px;
 
     font-weight:bold;
 
@@ -78,137 +116,91 @@ input{
 
 .status{
 
-    color:#d0d6e6;
+    font-size:13px;
 
-    margin-top:4px;
+    color:#9ca3af;
 
 }
 
-/* =========================
-   HOME
-========================= */
+/* ---------- HOME ---------- */
 
 .screen{
-
-    padding:40px 30px;
-
-}
-
-.welcome{
-
-    text-align:center;
-
-    margin-bottom:40px;
-
-}
-
-.welcome h1{
-
-    font-size:56px;
-
-    margin-bottom:20px;
-
-}
-
-.welcome p{
-
-    font-size:26px;
-
-    color:#c0c0c0;
-
-}
-
-.screen button{
-
-    width:100%;
-
-    height:58px;
-
-    border:none;
-
-    border-radius:16px;
-
-    background:#3b82f6;
-
-    color:white;
-
-    font-size:22px;
-
-    margin-bottom:40px;
-
-}
-
-.chat-list{
-
-    background:#1e1e1e;
-
-    border-radius:20px;
 
     padding:24px;
 
 }
 
-.chat-list h3{
+.welcome{
 
-    font-size:34px;
-
-    margin-bottom:18px;
+    margin-bottom:28px;
 
 }
 
-.empty{
+.chat-list{
 
-    color:#aaaaaa;
-
-    font-style:italic;
+    margin-top:24px;
 
 }
 
-/* =========================
-   CHAT
-========================= */
+.chat-item{
+
+    width:100%;
+
+    margin-top:10px;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#1f2937;
+
+    color:white;
+
+    text-align:left;
+
+}
+
+/* ---------- CHAT ---------- */
 
 .chat-container{
 
     padding:20px;
 
-    min-height:65vh;
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+
+    min-height:calc(100vh - 150px);
 
 }
 
 .message{
 
-    padding:14px 18px;
+    padding:12px 16px;
 
-    border-radius:18px;
-
-    margin-bottom:16px;
-
-    width:max-content;
+    border-radius:16px;
 
     max-width:75%;
 
 }
 
-.alma{
+.message.alma{
 
-    background:#5b3fd8;
+    background:#1f2937;
 
-}
-
-.user{
-
-    background:#3b82f6;
-
-    margin-left:auto;
+    align-self:flex-start;
 
 }
 
-.typing{
+.message.user{
 
-    color:#888;
+    background:#2383e2;
 
-    margin-top:8px;
+    align-self:flex-end;
 
 }
 
@@ -218,7 +210,9 @@ input{
 
     gap:10px;
 
-    padding:18px;
+    padding:16px;
+
+    border-top:1px solid #30363d;
 
 }
 
@@ -226,25 +220,27 @@ input{
 
     flex:1;
 
-    height:52px;
+    padding:12px;
 
     border:none;
 
-    border-radius:14px;
+    border-radius:12px;
 
-    padding:0 16px;
+    background:#1f2937;
+
+    color:white;
 
 }
 
 .input-area button{
 
-    width:120px;
+    padding:12px 18px;
 
     border:none;
 
-    border-radius:14px;
+    border-radius:12px;
 
-    background:#3b82f6;
+    background:#2383e2;
 
     color:white;
 
