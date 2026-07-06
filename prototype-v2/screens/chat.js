@@ -44,20 +44,10 @@ function renderizarChat(){
 
         <div class="input-area">
 
-            <button id="volver">
-
-                ←
-
-            </button>
-
             <input
-
                 id="mensaje"
-
                 type="text"
-
                 placeholder="Escribe un mensaje..."
-
             >
 
             <button id="enviar">
@@ -70,9 +60,7 @@ function renderizarChat(){
 
     `;
 
-    document
-        .getElementById("volver")
-        .addEventListener("click", Navigation.home);
+    mostrarBotonAtras(Navigation.home);
 
     document
         .getElementById("enviar")
