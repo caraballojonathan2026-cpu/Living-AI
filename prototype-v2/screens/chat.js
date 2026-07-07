@@ -88,6 +88,8 @@ async function enviarMensaje(){
 
     );
 
+    Runtime.cambiarEstado("Pensando...");
+    
     renderizarChat();
 
     caja.value="";
@@ -96,6 +98,8 @@ async function enviarMensaje(){
 
     await Alma.responder(texto);
 
+    Runtime.cambiarEstado("Respondiendo...");
+    
     ConversationManager.agregarMensaje(
 
         "alma",
@@ -104,6 +108,8 @@ async function enviarMensaje(){
 
     );
 
+    Runtime.cambiarEstado("Disponible");
+  
     renderizarChat();
 
 }
