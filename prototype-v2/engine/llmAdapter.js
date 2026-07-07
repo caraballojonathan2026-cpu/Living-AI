@@ -1,16 +1,24 @@
 const LLMAdapter = {
 
-    async generar(contexto, mensaje){
+    async generar(prompt){
 
-        // Por ahora usamos el motor simulado
+        console.log(
 
-        return AIEngine.generar(
-
-            contexto,
-
-            mensaje
+            "===== PROMPT ====="
 
         );
+
+        console.log(prompt);
+
+        console.log(
+
+            "=================="
+
+        );
+
+        return "[Modelo simulado] " +
+
+        AIEngine.generar(prompt);
 
     }
 
