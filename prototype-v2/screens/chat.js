@@ -34,7 +34,7 @@ function renderizarChat(){
 
     app.innerHTML = `
 
-        ${crearTopBar("Disponible")}
+        ${crearTopBar(Runtime.obtenerEstado())}
 
         <div class="chat-container">
 
