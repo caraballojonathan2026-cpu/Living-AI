@@ -88,6 +88,8 @@ async function enviarMensaje(){
 
     );
 
+    MemoryManager.aprender(texto);
+ 
     Runtime.cambiarEstado("Pensando...");
 
 renderizarChat();
