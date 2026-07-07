@@ -1,29 +1,39 @@
-    aprender(texto){
+ aprender(texto){
 
-        const memoria =
+    const memoria =
 
-        MemoryEvaluator.evaluar(texto);
+    MemoryEvaluator.evaluar(texto);
 
-        if(!memoria){
+    if(!memoria){
 
-            return;
-
-        }
-
-        if(memoria.importancia < 50){
-
-            return;
-
-        }
-
-        this.agregar(
-
-            memoria.contenido,
-
-            memoria.tipo,
-
-            memoria.importancia
-
-        );
+        return;
 
     }
+
+    if(memoria.importancia < 50){
+
+        return;
+
+    }
+
+    if(
+
+        MemoryConsolidator.consolidar(memoria)
+
+    ){
+
+        return;
+
+    }
+
+    this.agregar(
+
+        memoria.contenido,
+
+        memoria.tipo,
+
+        memoria.importancia
+
+    );
+
+}
