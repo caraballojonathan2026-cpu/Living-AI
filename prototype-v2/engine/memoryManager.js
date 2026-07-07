@@ -1,39 +1,121 @@
- aprender(texto){
+const MemoryManager = {
 
-    const memoria =
+    memorias: [],
 
-    MemoryEvaluator.evaluar(texto);
+    cargar(){
 
-    if(!memoria){
+        const datos = localStorage.getItem(
+            "living-ai-memories"
+        );
 
-        return;
+        if(datos){
+
+            this.memorias = JSON.parse(datos);
+
+        }
+
+    },
+
+    guardar(){
+
+        localStorage.setItem(
+
+            "living-ai-memories",
+
+            JSON.stringify(this.memorias)
+
+        );
+
+    },
+
+    agregar(contenido,tipo,importancia){
+
+        this.memorias.push({
+
+            id:Date.now(),
+
+            contenido,
+
+            tipo,
+
+            importancia,
+
+            fecha:new Date().toISOString()
+
+        });
+
+        this.guardar();
+
+    },
+
+    obtener(){
+
+        return this.memorias;
+
+    },
+
+    buscar(minImportancia=0){
+
+        return this.memorias.filter(
+
+            memoria=>memoria.importancia>=minImportancia
+
+        );
+
+    },
+
+    eliminar(id){
+
+        this.memorias =
+
+        this.memorias.filter(
+
+            memoria=>memoria.id!==id
+
+        );
+
+        this.guardar();
+
+    },
+
+    aprender(texto){
+
+        const memoria =
+
+        MemoryEvaluator.evaluar(texto);
+
+        if(!memoria){
+
+            return;
+
+        }
+
+        if(memoria.importancia < 50){
+
+            return;
+
+        }
+
+        if(
+
+            MemoryConsolidator.consolidar(memoria)
+
+        ){
+
+            return;
+
+        }
+
+        this.agregar(
+
+            memoria.contenido,
+
+            memoria.tipo,
+
+            memoria.importancia
+
+        );
 
     }
 
-    if(memoria.importancia < 50){
-
-        return;
-
-    }
-
-    if(
-
-        MemoryConsolidator.consolidar(memoria)
-
-    ){
-
-        return;
-
-    }
-
-    this.agregar(
-
-        memoria.contenido,
-
-        memoria.tipo,
-
-        memoria.importancia
-
-    );
-
-}
+};
