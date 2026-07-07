@@ -1,28 +1,18 @@
 const ModelManager = {
 
-    modeloActual:{
-
-        nombre:"Simulado",
-
-        tipo:"mock"
-
-    },
-
-    obtener(){
-
-        return this.modeloActual;
-
-    },
-
-    cambiar(modelo){
-
-        this.modeloActual=modelo;
-
-    },
-
     async generar(prompt,mensaje){
 
-        console.log(prompt);
+        if(!ModelLoader.estaListo()){
+
+            return AIEngine.generar(
+
+                prompt,
+
+                mensaje
+
+            );
+
+        }
 
         return await LLMAdapter.generar(
 
