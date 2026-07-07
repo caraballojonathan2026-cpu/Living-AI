@@ -8,6 +8,8 @@ Memory.cargar();
 
 MemoryManager.cargar();
 
+ForgetManager.ejecutar();
+
 ModelLoader.cargar("models/qwen3b.gguf");
 
 Navigation.home();
