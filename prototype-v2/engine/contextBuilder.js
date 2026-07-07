@@ -1,23 +1,66 @@
-const ContextBuilder={
+const ContextBuilder = {
 
-    construir(){
+    construir(intento){
 
-        const chat=ConversationManager.actualChat();
+        let contexto = "";
 
-        if(!chat){
+        switch(intento.tipo){
 
-            return "";
+            case IntentTypes.DEVICE:
+
+                contexto +=
+
+                "Dispositivos:\n\n";
+
+                for(const dispositivo of DeviceManager.obtener()){
+
+                    contexto +=
+
+                    "- " +
+
+                    dispositivo.nombre +
+
+                    " (" +
+
+                    dispositivo.tipo +
+
+                    ")\n";
+
+                    contexto +=
+
+                    dispositivo.notas +
+
+                    "\n\n";
+
+                }
+
+                break;
 
         }
 
-        return chat.mensajes
-            .slice(-10)
-            .map(m=>{
+        contexto +=
 
-                return `${m.autor}: ${m.texto}`;
+        "\nMemorias:\n\n";
 
-            })
-            .join("\n");
+        for(
+
+            const memoria
+
+            of MemoryManager.buscar(80)
+
+        ){
+
+            contexto +=
+
+            "- " +
+
+            memoria.contenido +
+
+            "\n";
+
+        }
+
+        return contexto;
 
     }
 
