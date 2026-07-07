@@ -98,11 +98,19 @@ switch(
 
 ){
 
-    case "device":
+    case IntentTypes.DEVICE:
 
-        DeviceDetector.detectar(texto);
+    DeviceManager.agregar(
 
-        break;
+        intento.datos.nombre,
+
+        intento.datos.categoria,
+
+        texto
+
+    );
+
+    break;
 
 }
     
