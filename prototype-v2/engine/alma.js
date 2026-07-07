@@ -1,16 +1,16 @@
-const Alma={
+const Alma = {
 
-    nombre:"Alma",
+    nombre: "Alma",
 
-    estado:"Disponible",
+    estado: "Disponible",
 
     responder(texto){
 
-        const contexto=
+        const contexto =
 
         ContextBuilder.construir();
 
-        return AIEngine.generar(
+        return ModelManager.generar(
 
             contexto,
 
