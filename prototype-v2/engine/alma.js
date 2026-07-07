@@ -1,12 +1,18 @@
-const Alma = {
+const Alma={
 
-    nombre: "Alma",
+    nombre:"Alma",
 
-    estado: "Disponible",
+    estado:"Disponible",
 
     responder(texto){
 
-        texto = texto.toLowerCase();
+        const contexto=
+
+        ContextBuilder.construir();
+
+        console.log(contexto);
+
+        texto=texto.toLowerCase();
 
         if(texto.includes("hola")){
 
@@ -14,7 +20,9 @@ const Alma = {
 
         }
 
-        if(texto.includes("adiós") || texto.includes("adios")){
+        if(texto.includes("adiós")||
+
+           texto.includes("adios")){
 
             return "Hasta luego.";
 
