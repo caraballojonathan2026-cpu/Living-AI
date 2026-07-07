@@ -1,83 +1,29 @@
-const MemoryManager = {
+    aprender(texto){
 
-    memorias: [],
+        const memoria =
 
-    cargar(){
+        MemoryEvaluator.evaluar(texto);
 
-        const datos = localStorage.getItem(
+        if(!memoria){
 
-            "living-ai-memories"
-
-        );
-
-        if(datos){
-
-            this.memorias = JSON.parse(datos);
+            return;
 
         }
 
-    },
+        if(memoria.importancia < 50){
 
-    guardar(){
+            return;
 
-        localStorage.setItem(
+        }
 
-            "living-ai-memories",
+        this.agregar(
 
-            JSON.stringify(this.memorias)
+            memoria.contenido,
 
-        );
+            memoria.tipo,
 
-    },
-
-    agregar(contenido,tipo,importancia){
-
-        this.memorias.push({
-
-            id:Date.now(),
-
-            contenido,
-
-            tipo,
-
-            importancia,
-
-            fecha:new Date().toISOString()
-
-        });
-
-        this.guardar();
-
-    },
-
-    obtener(){
-
-        return this.memorias;
-
-    },
-
-    buscar(minImportancia=0){
-
-        return this.memorias.filter(
-
-            memoria=>memoria.importancia>=minImportancia
+            memoria.importancia
 
         );
-
-    },
-
-    eliminar(id){
-
-        this.memorias =
-
-        this.memorias.filter(
-
-            memoria=>memoria.id!==id
-
-        );
-
-        this.guardar();
 
     }
-
-};
