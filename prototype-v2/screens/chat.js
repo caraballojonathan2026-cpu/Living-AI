@@ -94,7 +94,7 @@ renderizarChat();
 
 caja.value="";
 
-const respuesta=
+const respuesta =
 
 await Alma.responder(texto);
 
