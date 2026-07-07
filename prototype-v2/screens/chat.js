@@ -89,27 +89,29 @@ async function enviarMensaje(){
     );
 
     Runtime.cambiarEstado("Pensando...");
-    
-    renderizarChat();
 
-    caja.value="";
+renderizarChat();
 
-    const respuesta=
+caja.value="";
 
-    await Alma.responder(texto);
+const respuesta=
 
-    Runtime.cambiarEstado("Respondiendo...");
-    
-    ConversationManager.agregarMensaje(
+await Alma.responder(texto);
 
-        "alma",
+Runtime.cambiarEstado("Respondiendo...");
 
-        respuesta
+renderizarChat();
 
-    );
+ConversationManager.agregarMensaje(
 
-    Runtime.cambiarEstado("Disponible");
-  
-    renderizarChat();
+    "alma",
+
+    respuesta
+
+);
+
+Runtime.cambiarEstado("Disponible");
+
+renderizarChat();
 
 }
