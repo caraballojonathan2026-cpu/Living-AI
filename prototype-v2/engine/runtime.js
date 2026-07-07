@@ -1,16 +1,22 @@
 const Runtime = {
 
-    version: "Prototype v2.1",
+    version:"Prototype v2.1",
 
-    estado: "Disponible",
+    estado:"Disponible",
 
-    modelo: "Simulado",
+    modelo:"Simulado",
 
-    plataforma: "Web",
+    plataforma:"Web",
 
     iniciar(){
 
-        console.log("Living AI iniciado.");
+        Logger.log(
+
+            "SYSTEM",
+
+            "Living AI iniciado."
+
+        );
 
     },
 
@@ -22,19 +28,21 @@ const Runtime = {
 
     cambiarEstado(estado){
 
-        this.estado = estado;
+        this.estado=estado;
 
-    },
+        Logger.log(
 
-    obtenerModelo(){
+            "STATE",
 
-        return this.modelo;
+            estado
+
+        );
 
     },
 
     informacion(){
 
-        return {
+        return{
 
             version:this.version,
 
