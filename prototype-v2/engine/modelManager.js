@@ -1,6 +1,12 @@
 const ModelManager = {
 
-    modeloActual: "Simulado",
+    modeloActual:{
+
+        nombre:"Simulado",
+
+        tipo:"mock"
+
+    },
 
     obtener(){
 
@@ -8,15 +14,15 @@ const ModelManager = {
 
     },
 
-    cambiar(nombre){
+    cambiar(modelo){
 
-        this.modeloActual = nombre;
+        this.modeloActual=modelo;
 
     },
 
-    generar(contexto, mensaje){
+    async generar(contexto,mensaje){
 
-        return AIEngine.generar(
+        return await LLMAdapter.generar(
 
             contexto,
 
