@@ -5,7 +5,9 @@ const MemoryManager = {
     cargar(){
 
         const datos = localStorage.getItem(
+
             "living-ai-memories"
+
         );
 
         if(datos){
@@ -32,7 +34,7 @@ const MemoryManager = {
 
         this.memorias.push({
 
-            id:Date.now(),
+            id: Date.now(),
 
             contenido,
 
@@ -40,7 +42,7 @@ const MemoryManager = {
 
             importancia,
 
-            fecha:new Date().toISOString()
+            fecha: new Date().toISOString()
 
         });
 
@@ -54,11 +56,11 @@ const MemoryManager = {
 
     },
 
-    buscar(minImportancia=0){
+    buscar(minImportancia = 0){
 
         return this.memorias.filter(
 
-            memoria=>memoria.importancia>=minImportancia
+            memoria => memoria.importancia >= minImportancia
 
         );
 
@@ -66,11 +68,9 @@ const MemoryManager = {
 
     eliminar(id){
 
-        this.memorias =
+        this.memorias = this.memorias.filter(
 
-        this.memorias.filter(
-
-            memoria=>memoria.id!==id
+            memoria => memoria.id !== id
 
         );
 
@@ -80,9 +80,7 @@ const MemoryManager = {
 
     aprender(texto){
 
-        const memoria =
-
-        MemoryEvaluator.evaluar(texto);
+        const memoria = MemoryEvaluator.evaluar(texto);
 
         if(!memoria){
 
@@ -96,11 +94,7 @@ const MemoryManager = {
 
         }
 
-        if(
-
-            MemoryConsolidator.consolidar(memoria)
-
-        ){
+        if(MemoryConsolidator.consolidar(memoria)){
 
             return;
 
