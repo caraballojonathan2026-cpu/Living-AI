@@ -68,13 +68,13 @@ function renderizarChat(){
 
 }
 
-function enviarMensaje(){
+async function enviarMensaje(){
 
-    const caja = document.getElementById("mensaje");
+    const caja=document.getElementById("mensaje");
 
-    const texto = caja.value.trim();
+    const texto=caja.value.trim();
 
-    if(texto === ""){
+    if(texto===""){
 
         return;
 
@@ -90,20 +90,20 @@ function enviarMensaje(){
 
     renderizarChat();
 
-    caja.value = "";
+    caja.value="";
 
-    setTimeout(()=>{
+    const respuesta=
 
-        ConversationManager.agregarMensaje(
+    await Alma.responder(texto);
 
-            "alma",
+    ConversationManager.agregarMensaje(
 
-            Alma.responder(texto)
+        "alma",
 
-        );
+        respuesta
 
-        renderizarChat();
+    );
 
-    },700);
+    renderizarChat();
 
 }
