@@ -2,15 +2,39 @@ const PromptBuilder = {
 
     construir(mensaje){
 
-        const contexto = ContextBuilder.construir();
+        const contexto =
 
-        const runtime = Runtime.informacion();
+        ContextBuilder.construir();
+
+        const runtime =
+
+        Runtime.informacion();
+
+        const memorias =
+
+        MemoryManager.buscar(80);
+
+        let bloqueMemorias = "";
+
+        for(const memoria of memorias){
+
+            bloqueMemorias +=
+
+            "- " +
+
+            memoria.contenido +
+
+            "\n";
+
+        }
 
         return `
 
-Eres Alma.
+Eres ${Settings.obtener("nombreIA")}.
 
-Una misión: preservar lo que importa.
+Una misión:
+
+preservar lo que importa.
 
 Versión:
 
@@ -24,6 +48,10 @@ Estado:
 
 ${runtime.estado}
 
+Memorias importantes:
+
+${bloqueMemorias}
+
 Conversación:
 
 ${contexto}
@@ -32,7 +60,7 @@ Usuario:
 
 ${mensaje}
 
-Alma:
+${Settings.obtener("nombreIA")}:
 
 `;
 
