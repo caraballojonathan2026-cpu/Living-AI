@@ -1,12 +1,8 @@
-const Alma = {
-
-    nombre:"Alma",
-
-    estado:"Disponible",
+const Alma={
 
     async responder(texto){
 
-        const prompt =
+        const prompt=
 
         PromptBuilder.construir(texto);
 
@@ -15,6 +11,16 @@ const Alma = {
             prompt,
 
             texto
+
+        );
+
+    },
+
+    nombre(){
+
+        return Settings.obtener(
+
+            "nombreIA"
 
         );
 
