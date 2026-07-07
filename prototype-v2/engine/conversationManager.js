@@ -10,9 +10,9 @@ const ConversationManager = {
 
             id: Date.now(),
 
-            nombre: "Conversación " +
+            nombre:"Conversación " +
 
-            (this.conversaciones.length + 1),
+            (this.conversaciones.length+1),
 
             mensajes:[
 
@@ -46,15 +46,63 @@ const ConversationManager = {
 
     },
 
-    abrir(id){
+    buscar(id){
 
-        this.actual = this.conversaciones.find(
+        return this.conversaciones.find(
 
             c=>c.id===id
 
         );
 
+    },
+
+    abrir(id){
+
+        this.actual=this.buscar(id);
+
         return this.actual;
+
+    },
+
+    eliminar(id){
+
+        this.conversaciones=
+
+        this.conversaciones.filter(
+
+            c=>c.id!==id
+
+        );
+
+        if(
+
+            this.actual &&
+
+            this.actual.id===id
+
+        ){
+
+            this.actual=null;
+
+        }
+
+        Memory.guardar();
+
+    },
+
+    renombrar(id,nombre){
+
+        const chat=this.buscar(id);
+
+        if(!chat){
+
+            return;
+
+        }
+
+        chat.nombre=nombre;
+
+        Memory.guardar();
 
     },
 
