@@ -10,31 +10,13 @@ const Alma={
 
         ContextBuilder.construir();
 
-        console.log(contexto);
+        return AIEngine.generar(
 
-        texto=texto.toLowerCase();
+            contexto,
 
-        if(texto.includes("hola")){
+            texto
 
-            return "¡Hola! Me alegra verte.";
-
-        }
-
-        if(texto.includes("adiós")||
-
-           texto.includes("adios")){
-
-            return "Hasta luego.";
-
-        }
-
-        if(texto.includes("gracias")){
-
-            return "De nada.";
-
-        }
-
-        return "Todavía estoy aprendiendo.";
+        );
 
     }
 
