@@ -88,6 +88,8 @@ async function enviarMensaje(){
 
     );
 
+    DeviceDetector.detectar(texto);
+    
     MemoryManager.aprender(texto);
  
     Runtime.cambiarEstado("Pensando...");
