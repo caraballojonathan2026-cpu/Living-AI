@@ -2,9 +2,17 @@ const PromptBuilder = {
 
     construir(mensaje){
 
-        const contexto =
+        const intento =
 
-        ContextBuilder.construir();
+IntentAnalyzer.analizar(mensaje);
+
+const contexto =
+
+ContextBuilder.construir(
+
+    intento
+
+);
 
         const runtime =
 
