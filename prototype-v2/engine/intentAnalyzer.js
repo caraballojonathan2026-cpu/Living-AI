@@ -6,9 +6,49 @@ const IntentAnalyzer = {
 
         if(
 
-            t.includes("chromebook") ||
+            t.includes("chromebook")
 
-            t.includes("galaxy tab") ||
+        ){
+
+            return{
+
+                tipo:IntentTypes.DEVICE,
+
+                datos:{
+
+                    nombre:"Chromebook",
+
+                    categoria:"Chromebook"
+
+                }
+
+            };
+
+        }
+
+        if(
+
+            t.includes("galaxy tab")
+
+        ){
+
+            return{
+
+                tipo:IntentTypes.DEVICE,
+
+                datos:{
+
+                    nombre:"Galaxy Tab",
+
+                    categoria:"Tablet"
+
+                }
+
+            };
+
+        }
+
+        if(
 
             t.includes("moto")
 
@@ -16,7 +56,15 @@ const IntentAnalyzer = {
 
             return{
 
-                tipo:"device"
+                tipo:IntentTypes.DEVICE,
+
+                datos:{
+
+                    nombre:"Moto",
+
+                    categoria:"Teléfono"
+
+                }
 
             };
 
@@ -24,7 +72,9 @@ const IntentAnalyzer = {
 
         return{
 
-            tipo:"conversation"
+            tipo:IntentTypes.CONVERSATION,
+
+            datos:null
 
         };
 
