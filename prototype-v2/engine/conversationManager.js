@@ -10,18 +10,26 @@ const ConversationManager = {
 
             id: Date.now(),
 
-            nombre: "Conversación " + (this.conversaciones.length + 1),
+            nombre: "Conversación " +
 
-            mensajes: [
+            (this.conversaciones.length + 1),
+
+            mensajes:[
 
                 {
-                    autor: "alma",
-                    texto: "Hola. Soy Alma."
+
+                    autor:"alma",
+
+                    texto:"Hola. Soy Alma."
+
                 },
 
                 {
-                    autor: "alma",
-                    texto: "¿Qué te gustaría hacer hoy?"
+
+                    autor:"alma",
+
+                    texto:"¿Qué te gustaría hacer hoy?"
+
                 }
 
             ]
@@ -32,6 +40,8 @@ const ConversationManager = {
 
         this.actual = nueva;
 
+        Memory.guardar();
+
         return nueva;
 
     },
@@ -40,7 +50,7 @@ const ConversationManager = {
 
         this.actual = this.conversaciones.find(
 
-            c => c.id === id
+            c=>c.id===id
 
         );
 
@@ -60,7 +70,7 @@ const ConversationManager = {
 
     },
 
-    agregarMensaje(autor, texto){
+    agregarMensaje(autor,texto){
 
         if(!this.actual){
 
@@ -75,6 +85,8 @@ const ConversationManager = {
             texto
 
         });
+
+        Memory.guardar();
 
     }
 
