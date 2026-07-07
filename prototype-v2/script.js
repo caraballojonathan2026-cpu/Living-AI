@@ -4,8 +4,10 @@ Settings.cargar();
 
 Runtime.iniciar();
 
-ModelLoader.cargar("models/qwen3b.gguf");
-
 Memory.cargar();
+
+MemoryManager.cargar();
+
+ModelLoader.cargar("models/qwen3b.gguf");
 
 Navigation.home();
