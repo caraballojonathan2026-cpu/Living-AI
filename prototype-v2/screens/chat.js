@@ -88,7 +88,23 @@ async function enviarMensaje(){
 
     );
 
-    DeviceDetector.detectar(texto);
+  const intento =
+
+IntentAnalyzer.analizar(texto);
+
+switch(
+
+    intento.tipo
+
+){
+
+    case "device":
+
+        DeviceDetector.detectar(texto);
+
+        break;
+
+}
     
     MemoryManager.aprender(texto);
  
