@@ -1,4 +1,4 @@
-const Alma={
+const Alma = {
 
     nombre:"Alma",
 
@@ -6,13 +6,13 @@ const Alma={
 
     async responder(texto){
 
-        const contexto=
+        const prompt =
 
-        ContextBuilder.construir();
+        PromptBuilder.construir(texto);
 
         return await ModelManager.generar(
 
-            contexto,
+            prompt,
 
             texto
 
