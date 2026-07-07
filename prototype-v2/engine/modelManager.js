@@ -20,11 +20,13 @@ const ModelManager = {
 
     },
 
-    async generar(contexto,mensaje){
+    async generar(prompt,mensaje){
+
+        console.log(prompt);
 
         return await LLMAdapter.generar(
 
-            contexto,
+            prompt,
 
             mensaje
 
