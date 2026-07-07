@@ -8,17 +8,9 @@ const Runtime = {
 
     plataforma: "Web",
 
-    inicializado: false,
-
     iniciar(){
 
-        this.inicializado = true;
-
-        console.log(
-
-            "Living AI iniciado."
-
-        );
+        console.log("Living AI iniciado.");
 
     },
 
@@ -40,25 +32,17 @@ const Runtime = {
 
     },
 
-    cambiarModelo(nombre){
-
-        this.modelo = nombre;
-
-    },
-
     informacion(){
 
         return {
 
-            version: this.version,
+            version:this.version,
 
-            modelo: this.modelo,
+            estado:this.estado,
 
-            estado: this.estado,
+            modelo:this.modelo,
 
-            plataforma: this.plataforma,
-
-            inicializado: this.inicializado
+            plataforma:this.plataforma
 
         };
 
