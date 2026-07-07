@@ -1,16 +1,14 @@
-const Alma={
+const Alma = {
 
     async responder(texto){
 
-        const prompt=
+        const prompt =
 
         PromptBuilder.construir(texto);
 
-        return await ModelManager.generar(
+        return await InferenceEngine.generar(
 
-            prompt,
-
-            texto
+            prompt
 
         );
 
