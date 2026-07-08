@@ -12,6 +12,18 @@ DeviceManager.cargar();
 
 ForgetManager.ejecutar();
 
-ModelLoader.cargar("models/qwen3b.gguf");
+const modelo =
+
+ModelRegistry.buscar(
+
+    "qwen3-3b"
+
+);
+
+ModelLoader.cargar(
+
+    modelo.archivo
+
+);
 
 Navigation.home();
