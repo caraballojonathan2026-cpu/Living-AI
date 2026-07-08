@@ -5,7 +5,15 @@ const PromptBuilder = {
         const intento =
 
 IntentAnalyzer.analizar(mensaje);
+        
+const reflexion =
 
+ReflectionEngine.analizar(
+
+    mensaje
+
+);
+        
 const contexto =
 
 ContextBuilder.construir(
