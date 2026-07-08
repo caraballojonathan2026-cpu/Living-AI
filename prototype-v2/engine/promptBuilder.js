@@ -14,6 +14,14 @@ ReflectionEngine.analizar(
 
 );
         
+        const pensamientos =
+
+ThoughtBuilder.construir(
+
+    reflexion
+
+);
+        
 const contexto =
 
 ContextBuilder.construir(
@@ -46,7 +54,19 @@ Personality.instrucciones();
             "\n";
 
         }
+let bloquePensamientos = "";
 
+for(const pensamiento of pensamientos){
+
+    bloquePensamientos +=
+
+    "- " +
+
+    pensamiento +
+
+    "\n";
+
+}
         return `
 
 ${personalidad}
@@ -62,6 +82,10 @@ ${runtime.modelo}
 Estado:
 
 ${runtime.estado}
+
+Pensamientos internos:
+
+${bloquePensamientos}
 
 Memorias importantes:
 
