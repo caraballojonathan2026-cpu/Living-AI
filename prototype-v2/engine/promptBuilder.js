@@ -41,11 +41,7 @@ Personality.instrucciones();
 
         return `
 
-Eres ${Settings.obtener("nombreIA")}.
-
-Una misión:
-
-preservar lo que importa.
+${personalidad}
 
 Versión:
 
@@ -74,7 +70,4 @@ ${mensaje}
 ${Settings.obtener("nombreIA")}:
 
 `;
-
-    }
-
 };
