@@ -25,5 +25,9 @@ ModelLoader.cargar(
     modelo.archivo
 
 );
+LlamaCpp.cargar(
 
+    modelo.archivo
+
+);
 Navigation.home();
