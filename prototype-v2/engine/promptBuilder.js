@@ -13,7 +13,10 @@ ContextBuilder.construir(
     intento
 
 );
+const personalidad =
 
+Personality.instrucciones();
+        
         const runtime =
 
         Runtime.informacion();
