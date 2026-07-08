@@ -4,11 +4,11 @@ const InferenceEngine = {
 
         if(
 
-            ModelLoader.estaListo()
+            LlamaCpp.estaCargado()
 
         ){
 
-            return await LLMAdapter.generar(
+            return await LlamaCpp.generar(
 
                 prompt
 
