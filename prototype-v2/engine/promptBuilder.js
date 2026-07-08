@@ -18,7 +18,7 @@ const contexto =
 
 ContextBuilder.construir(
 
-    intento
+    reflexion
 
 );
 const personalidad =
