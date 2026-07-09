@@ -2,18 +2,20 @@ const Alma = {
 
     async procesar(mensaje){
 
-    Runtime.cambiarEstado("Pensando...");
+        Runtime.cambiarEstado("Pensando...");
 
-    const respuesta =
+        const respuesta =
 
-    await CoreEngine.procesar(
+        await CoreEngine.procesar(
 
-        mensaje
+            mensaje
 
-    );
+        );
 
-    Runtime.cambiarEstado("Disponible");
+        Runtime.cambiarEstado("Disponible");
 
-    return respuesta;
+        return respuesta;
 
-}
+    }
+
+};
