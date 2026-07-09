@@ -25,48 +25,19 @@ const CoreEngine = {
             reflexion
 
         );
-const Alma = {
 
-    async procesar(mensaje){
-
-        Runtime.cambiarEstado(
-
-            "Pensando..."
-
-        );
-
-        const respuesta =
-
-        await CoreEngine.procesar(
+        this.procesarIntencion(
 
             mensaje
 
         );
 
-        Runtime.cambiarEstado(
-
-            "Disponible"
-
-        );
-
-        return respuesta;
-
-    },
-
-    async responder(mensaje){
-
-        return await
-
-        InferenceEngine.responder(
+        this.actualizarMemoria(
 
             mensaje
 
         );
 
-    }
-
-};
-        
         const respuesta =
 
         await InferenceEngine.responder(
@@ -76,6 +47,46 @@ const Alma = {
         );
 
         return respuesta;
+
+    },
+
+    procesarIntencion(mensaje){
+
+        const intento =
+
+        IntentAnalyzer.analizar(
+
+            mensaje
+
+        );
+
+        switch(intento.tipo){
+
+            case IntentTypes.DEVICE:
+
+                DeviceManager.agregar(
+
+                    intento.datos.nombre,
+
+                    intento.datos.categoria,
+
+                    mensaje
+
+                );
+
+                break;
+
+        }
+
+    },
+
+    actualizarMemoria(mensaje){
+
+        MemoryManager.aprender(
+
+            mensaje
+
+        );
 
     }
 
