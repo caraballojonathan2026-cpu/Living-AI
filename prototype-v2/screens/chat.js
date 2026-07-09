@@ -126,10 +126,6 @@ const respuesta =
 
 await Alma.procesar(texto);
 
-Runtime.cambiarEstado("Respondiendo...");
-
-renderizarChat();
-
 ConversationManager.agregarMensaje(
 
     "alma",
@@ -137,8 +133,6 @@ ConversationManager.agregarMensaje(
     respuesta
 
 );
-
-Runtime.cambiarEstado("Disponible");
 
 renderizarChat();
 
