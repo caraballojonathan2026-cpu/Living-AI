@@ -1,24 +1,26 @@
 const Alma = {
 
-    async responder(texto){
+    async procesar(mensaje){
 
-        const prompt =
+        Runtime.cambiarEstado("Pensando...");
 
-        PromptBuilder.construir(texto);
+        const respuesta =
 
-        return await InferenceEngine.generar(
+        await this.responder(mensaje);
 
-            prompt
+        Runtime.cambiarEstado("Disponible");
 
-        );
+        return respuesta;
 
     },
 
-    nombre(){
+    async responder(mensaje){
 
-        return Settings.obtener(
+        return await
 
-            "nombreIA"
+        InferenceEngine.responder(
+
+            mensaje
 
         );
 
