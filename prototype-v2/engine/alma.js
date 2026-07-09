@@ -1,29 +1,43 @@
 const Alma = {
 
-    async procesar(mensaje){
+async procesar(mensaje){
 
-        Runtime.cambiarEstado("Pensando...");
+    Runtime.cambiarEstado("Pensando...");
 
-        const respuesta =
+    const intento =
 
-        await this.responder(mensaje);
+    IntentAnalyzer.analizar(mensaje);
 
-        Runtime.cambiarEstado("Disponible");
+    switch(intento.tipo){
 
-        return respuesta;
+        case IntentTypes.DEVICE:
 
-    },
+            DeviceManager.agregar(
 
-    async responder(mensaje){
+                intento.datos.nombre,
 
-        return await
+                intento.datos.categoria,
 
-        InferenceEngine.responder(
+                mensaje
 
-            mensaje
+            );
 
-        );
+            break;
 
     }
 
-};
+    MemoryManager.aprender(
+
+        mensaje
+
+    );
+
+    const respuesta =
+
+    await this.responder(mensaje);
+
+    Runtime.cambiarEstado("Disponible");
+
+    return respuesta;
+
+}  
