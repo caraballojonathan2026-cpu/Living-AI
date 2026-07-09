@@ -87,34 +87,6 @@ async function enviarMensaje(){
         texto
 
     );
-
-  const intento =
-
-IntentAnalyzer.analizar(texto);
-
-switch(
-
-    intento.tipo
-
-){
-
-    case IntentTypes.DEVICE:
-
-    DeviceManager.agregar(
-
-        intento.datos.nombre,
-
-        intento.datos.categoria,
-
-        texto
-
-    );
-
-    break;
-
-}
-    
-    MemoryManager.aprender(texto);
  
     Runtime.cambiarEstado("Pensando...");
 
