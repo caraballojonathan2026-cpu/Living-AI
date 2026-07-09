@@ -124,7 +124,7 @@ caja.value="";
 
 const respuesta =
 
-await Alma.responder(texto);
+await Alma.procesar(texto);
 
 Runtime.cambiarEstado("Respondiendo...");
 
