@@ -13,6 +13,14 @@ ReflectionEngine.analizar(
     mensaje
 
 );
+
+        const decisiones =
+
+DecisionEngine.decidir(
+
+    reflexion
+
+);
         
         const pensamientos =
 
