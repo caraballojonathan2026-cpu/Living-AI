@@ -77,7 +77,7 @@
     </div>
 
     <div class="sidebar-foot">
-      <button class="conn-pill" id="connPill" title="Probar conexión">
+      <button class="conn-pill" id="connPill" title="Cambiar servidor">
         <span class="dot" id="connDot"></span>
         <span id="connText">Sin verificar</span>
       </button>
@@ -155,6 +155,27 @@
   </main>
 </div>
 
+<!-- ============ SERVER MODAL ============ -->
+<div class="modal-backdrop" id="serverModal" hidden>
+  <div class="modal glass" role="dialog" aria-modal="true" aria-labelledby="serverTitle">
+    <div class="modal-head">
+      <h3 id="serverTitle">Servidores</h3>
+      <button class="icon-btn" data-close aria-label="Cerrar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p class="muted">Elige dónde corre Ollama. Desde tu teléfono apunta a tu PC con su IP local (ej. <code>http://192.168.1.50:11434</code>); ambos deben estar en el mismo Wi-Fi.</p>
+      <ul class="server-list" id="serverList"></ul>
+      <div class="server-add">
+        <input type="text" id="newServerName" placeholder="Nombre (ej. Mi PC)" maxlength="30">
+        <input type="url" id="newServerUrl" placeholder="http://192.168.1.50:11434" inputmode="url">
+        <button class="btn-primary" id="btnAddServer">Agregar servidor</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ============ SETTINGS MODAL ============ -->
 <div class="modal-backdrop" id="settingsModal" hidden>
   <div class="modal glass" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
@@ -166,8 +187,9 @@
     </div>
     <div class="modal-body">
       <label class="field">
-        <span>Endpoint de Ollama</span>
-        <input type="url" id="setEndpoint" placeholder="http://localhost:11434" inputmode="url">
+        <span>Servidor de Ollama</span>
+        <select id="setServer"></select>
+        <p class="muted">Agrega o cambia servidores tocando la píldora de conexión.</p>
       </label>
       <label class="field">
         <span>Modelo</span>

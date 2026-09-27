@@ -32,7 +32,8 @@ function defaultState() {
     knowledge: [],
     memory: [],
     settings: {
-      endpoint: "http://localhost:11434",
+      servers: [{ id: "srv_local", name: "Este dispositivo", url: "http://localhost:11434" }],
+      activeServerId: "srv_local",
       model: "llama3.2:3b",
       temperature: 0.7,
       systemPrompt: DEFAULT_SYSTEM,
@@ -43,10 +44,22 @@ let S;
 try {
   S = Object.assign(defaultState(), JSON.parse(localStorage.getItem(LS_KEY) || "{}"));
   S.settings = Object.assign(defaultState().settings, S.settings || {});
+  // migración: endpoint único -> lista de servidores
+  if (!Array.isArray(S.settings.servers) || !S.settings.servers.length) {
+    const url = (S.settings.endpoint || "http://localhost:11434").trim().replace(/\/+$/, "") || "http://localhost:11434";
+    S.settings.servers = [{ id: "srv_local", name: "Este dispositivo", url }];
+    S.settings.activeServerId = "srv_local";
+  }
+  if (!S.settings.servers.some((s) => s.id === S.settings.activeServerId)) {
+    S.settings.activeServerId = S.settings.servers[0].id;
+  }
+  delete S.settings.endpoint;
 } catch { S = defaultState(); }
 const save = () => { try { localStorage.setItem(LS_KEY, JSON.stringify(S)); } catch {} };
 
 const activeConv = () => S.conversations.find((c) => c.id === S.activeId) || null;
+const activeServer = () => S.settings.servers.find((s) => s.id === S.settings.activeServerId) || S.settings.servers[0];
+const serverUrl = () => activeServer().url.replace(/\/+$/, "");
 
 /* ---------- markdown (básico y seguro) ---------- */
 function md(src) {
@@ -265,7 +278,15 @@ scrim.addEventListener("click", closeDrawer);
 
 /* ---------- ajustes ---------- */
 function loadSettingsIntoForm() {
-  $("#setEndpoint").value = S.settings.endpoint;
+  const sel = $("#setServer");
+  sel.innerHTML = "";
+  S.settings.servers.forEach((s) => {
+    const o = document.createElement("option");
+    o.value = s.id;
+    o.textContent = `${s.name} · ${s.url}`;
+    sel.appendChild(o);
+  });
+  sel.value = S.settings.activeServerId;
   $("#setModel").value = S.settings.model;
   $("#setTemp").value = S.settings.temperature;
   $("#tempVal").textContent = Number(S.settings.temperature).toFixed(1);
@@ -276,7 +297,7 @@ $("#btnSettings").addEventListener("click", openSettings);
 $("#btnSettingsMobile").addEventListener("click", openSettings);
 $("#btnOpenSettings").addEventListener("click", openSettings);
 
-$("#setEndpoint").addEventListener("change", (e) => { S.settings.endpoint = e.target.value.trim().replace(/\/+$/, ""); save(); setConn("idle"); });
+$("#setServer").addEventListener("change", (e) => setActiveServer(e.target.value));
 $("#setModel").addEventListener("change", (e) => { S.settings.model = e.target.value.trim(); save(); updateTopbar(); });
 $("#setTemp").addEventListener("input", (e) => { S.settings.temperature = Number(e.target.value); $("#tempVal").textContent = Number(e.target.value).toFixed(1); save(); });
 $("#setSystem").addEventListener("change", (e) => { S.settings.systemPrompt = e.target.value; save(); toast("System prompt guardado"); });
@@ -345,6 +366,61 @@ $("#btnDeleteMemory").addEventListener("click", () => {
   });
 });
 
+/* ---------- servidores ---------- */
+function setActiveServer(id, retest = true) {
+  if (!S.settings.servers.some((s) => s.id === id)) return;
+  S.settings.activeServerId = id;
+  save(); renderServers(); loadSettingsIntoForm();
+  setConn("idle");
+  if (retest) testConnection(true);
+  toast("Servidor: " + activeServer().name);
+}
+function renderServers() {
+  const ul = $("#serverList");
+  ul.innerHTML = "";
+  S.settings.servers.forEach((s) => {
+    const li = document.createElement("li");
+    li.className = "server-item" + (s.id === S.settings.activeServerId ? " active" : "");
+    li.innerHTML = `<button class="server-main" title="Usar este servidor">
+        <span class="server-name">${esc(s.name)}${s.id === S.settings.activeServerId ? " · activo" : ""}</span>
+        <span class="server-url">${esc(s.url)}</span>
+      </button>
+      <button class="mini-btn danger" title="Eliminar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>`;
+    li.querySelector(".server-main").addEventListener("click", () => {
+      setActiveServer(s.id);
+      closeModal("#serverModal");
+    });
+    li.querySelector(".mini-btn").addEventListener("click", () => {
+      if (S.settings.servers.length <= 1) { toast("No puedes eliminar el único servidor", true); return; }
+      askConfirm("¿Eliminar servidor?", `"${s.name}" se quitará de la lista.`, () => {
+        S.settings.servers = S.settings.servers.filter((x) => x.id !== s.id);
+        if (S.settings.activeServerId === s.id) S.settings.activeServerId = S.settings.servers[0].id;
+        save(); renderServers(); loadSettingsIntoForm(); setConn("idle");
+        toast("Servidor eliminado");
+      });
+    });
+    ul.appendChild(li);
+  });
+}
+function openServerModal() {
+  renderServers();
+  $("#newServerName").value = "";
+  $("#newServerUrl").value = "";
+  openModal("#serverModal");
+  setTimeout(() => $("#newServerName").focus(), 60);
+}
+$("#btnAddServer").addEventListener("click", () => {
+  const name = $("#newServerName").value.trim();
+  let url = $("#newServerUrl").value.trim().replace(/\/+$/, "");
+  if (!name || !url) { toast("Ponle nombre y dirección al servidor", true); return; }
+  if (!/^https?:\/\//i.test(url)) url = "http://" + url;
+  S.settings.servers.push({ id: uid("srv"), name, url });
+  save(); renderServers(); loadSettingsIntoForm();
+  $("#newServerName").value = "";
+  $("#newServerUrl").value = "";
+  toast("Servidor agregado — tócalo para usarlo");
+});
+
 /* ---------- estado de conexión ---------- */
 function setConn(state, text) {
   const pill = $("#connPill");
@@ -356,7 +432,7 @@ function setConn(state, text) {
   else { label.textContent = "Sin verificar"; }
 }
 async function testConnection(quiet = false) {
-  const base = S.settings.endpoint.replace(/\/+$/, "");
+  const base = serverUrl();
   if (!quiet) setConn("checking");
   try {
     const res = await fetch(base + "/api/tags", { signal: AbortSignal.timeout(6000) });
@@ -366,7 +442,7 @@ async function testConnection(quiet = false) {
     const dl = $("#modelList");
     dl.innerHTML = "";
     models.forEach((m) => { const o = document.createElement("option"); o.value = m; dl.appendChild(o); });
-    setConn("ok", `Conectado · ${models.length} modelo${models.length === 1 ? "" : "s"}`);
+    setConn("ok", `Conectado · ${activeServer().name}`);
     if (!quiet) {
       const r = $("#connResult");
       r.className = "conn-result ok";
@@ -384,7 +460,7 @@ async function testConnection(quiet = false) {
   }
 }
 $("#btnTestConn").addEventListener("click", () => testConnection(false));
-$("#connPill").addEventListener("click", () => testConnection(false));
+$("#connPill").addEventListener("click", openServerModal);
 $("#btnRetryConn").addEventListener("click", async () => {
   const ok = await testConnection(false);
   if (ok) { $("#offlineCard").hidden = true; toast("Alma está en línea"); }
@@ -430,7 +506,7 @@ async function sendMessage(text) {
     ...history,
     { role: "user", content },
   ];
-  const base = S.settings.endpoint.replace(/\/+$/, "");
+  const base = serverUrl();
   aborter = new AbortController();
   setGenerating(true);
   let full = "";
