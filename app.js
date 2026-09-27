@@ -439,6 +439,12 @@ $("#btnAddServer").addEventListener("click", () => {
 
 /* ---------- GGUF en el navegador ---------- */
 const PRESETS = {
+  qwen05lite: {
+    name: "Qwen2.5 0.5B (ligero)",
+    url: "https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF/resolve/main/qwen2.5-0.5b-instruct-q4_k_m.gguf",
+    size: "~400 MB",
+    desc: "El más liviano · teléfonos con poca RAM",
+  },
   qwen05: {
     name: "Qwen2.5 0.5B",
     url: "https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF/resolve/main/qwen2.5-0.5b-instruct-q8_0.gguf",
@@ -504,7 +510,12 @@ async function loadBrowserModel(kind) {
   const preset = kind === "preset" ? PRESETS[$("#presetModel").value] : null;
   const file = kind === "file" ? $("#fileGguf").files[0] : null;
   if (kind === "file" && !file) return;
+  if (kind === "file" && file.size > 900 * 1024 * 1024) {
+    toast("Ese archivo es muy grande para un teléfono; puede no cargar", true);
+  }
   const name = kind === "preset" ? preset.name : file.name;
+  $("#browserError").hidden = true;
+  $("#browserError").textContent = "";
   $("#browserStatus").textContent = "Cargando " + name + "…";
   $("#browserStatus").className = "browser-status loading";
   browserProgressUI(true);
@@ -529,6 +540,10 @@ async function loadBrowserModel(kind) {
   } catch (e) {
     browserProgressUI(false);
     renderBrowserCard();
+    const msg = (e && e.message) ? String(e.message).slice(0, 220) : "error desconocido";
+    const errEl = $("#browserError");
+    errEl.textContent = "No se pudo cargar el modelo: " + msg;
+    errEl.hidden = false;
     toast("No se pudo cargar el modelo", true);
   }
 }
