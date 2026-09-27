@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Alma — Tu IA personal</title>
+<meta name="description" content="Alma: tu inteligencia artificial personal, local y privada.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="bg-scene" aria-hidden="true">
+  <div class="blob blob-a"></div>
+  <div class="blob blob-b"></div>
+  <div class="blob blob-c"></div>
+  <div class="grain"></div>
+</div>
+
+<div class="app">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar" id="sidebar" aria-label="Panel lateral">
+    <div class="brand">
+      <div class="orb orb-sm" aria-hidden="true"><span class="orb-core"></span></div>
+      <div class="brand-text">
+        <h1>Alma</h1>
+        <p>IA personal · local y privada</p>
+      </div>
+    </div>
+
+    <button class="btn-new" id="btnNewChat">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+      Nueva conversación
+    </button>
+
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-tab="chats" role="tab">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Chats
+      </button>
+      <button class="tab" data-tab="knowledge" role="tab">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        Conocimiento
+      </button>
+      <button class="tab" data-tab="memory" role="tab">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 1 7 7c0 2.4-1.2 4.2-2.6 5.6-.9.9-1.4 2-1.4 3.4H9c0-1.4-.5-2.5-1.4-3.4C6.2 13.2 5 11.4 5 9a7 7 0 0 1 7-7z"/><path d="M9 21h6"/></svg>
+        Memoria
+      </button>
+    </nav>
+
+    <div class="panels">
+      <section class="panel active" id="panel-chats" role="tabpanel">
+        <ul class="chat-list" id="chatList"></ul>
+        <p class="empty-hint" id="chatsEmpty" hidden>Aún no hay conversaciones.<br>Crea la primera arriba.</p>
+      </section>
+
+      <section class="panel" id="panel-knowledge" role="tabpanel">
+        <p class="panel-desc">Notas que Alma usa como contexto. Es el equivalente a tu carpeta <code>biblioteca/</code>.</p>
+        <button class="btn-ghost" id="btnAddNote">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          Agregar nota
+        </button>
+        <ul class="note-list" id="noteList"></ul>
+      </section>
+
+      <section class="panel" id="panel-memory" role="tabpanel">
+        <p class="panel-desc">Datos que Alma debe recordar siempre de ti.</p>
+        <button class="btn-ghost" id="btnAddMemory">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          Agregar recuerdo
+        </button>
+        <ul class="memory-list" id="memoryList"></ul>
+      </section>
+    </div>
+
+    <div class="sidebar-foot">
+      <button class="conn-pill" id="connPill" title="Probar conexión">
+        <span class="dot" id="connDot"></span>
+        <span id="connText">Sin verificar</span>
+      </button>
+      <button class="icon-btn" id="btnSettings" title="Ajustes" aria-label="Ajustes">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+    </div>
+  </aside>
+  <div class="scrim" id="scrim"></div>
+
+  <!-- ============ MAIN ============ -->
+  <main class="main">
+    <header class="topbar">
+      <button class="icon-btn only-mobile" id="btnMenu" aria-label="Abrir menú">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+      <div class="topbar-title">
+        <div class="orb orb-xs" aria-hidden="true"><span class="orb-core"></span></div>
+        <div>
+          <strong id="topbarModel">Alma</strong>
+          <span class="topbar-sub" id="topbarSub">lista para conversar</span>
+        </div>
+      </div>
+      <button class="icon-btn only-mobile" id="btnSettingsMobile" aria-label="Ajustes">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></svg>
+      </button>
+    </header>
+
+    <div class="chat-scroll" id="chatScroll">
+      <div class="chat" id="chat"></div>
+
+      <div class="welcome" id="welcome">
+        <div class="orb orb-lg" aria-hidden="true"><span class="orb-core"></span><span class="orb-ring"></span></div>
+        <h2>Hola, soy <span class="grad-text">Alma</span></h2>
+        <p>Tu inteligencia artificial personal.<br>Corre en tu máquina, tus datos no salen de aquí.</p>
+        <div class="chips">
+          <button class="chip" data-prompt="¿Qué puedes hacer por mí?">¿Qué puedes hacer por mí?</button>
+          <button class="chip" data-prompt="Ayúdame a organizar mis ideas de hoy">Organizar mis ideas</button>
+          <button class="chip" data-prompt="Recuérdame algo importante sobre mí">Pruébame la memoria</button>
+        </div>
+      </div>
+
+      <div class="offline-card" id="offlineCard" hidden>
+        <div class="offline-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="19.5" r="1" fill="currentColor"/></svg>
+        </div>
+        <h3>Alma está desconectada</h3>
+        <p>Para conversar necesitas <strong>Ollama</strong> corriendo en tu computadora. Es rápido:</p>
+        <ol>
+          <li>Instala Ollama desde <a href="https://ollama.com" target="_blank" rel="noopener">ollama.com</a></li>
+          <li>Descarga un modelo:<br><code>ollama pull llama3.2:3b</code></li>
+          <li>Inícialo permitiendo conexiones del navegador:<br><code>OLLAMA_ORIGINS=* ollama serve</code></li>
+          <li>Vuelve aquí y pulsa <strong>Probar conexión</strong>.</li>
+        </ol>
+        <p class="offline-note">Tus notas y conversaciones viven en este navegador.<br>Nada se envía a ningún servidor externo.</p>
+        <div class="offline-actions">
+          <button class="btn-primary" id="btnRetryConn">Probar conexión</button>
+          <button class="btn-ghost" id="btnOpenSettings">Abrir ajustes</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="composer-wrap">
+      <div class="composer glass">
+        <textarea id="composer" rows="1" placeholder="Escríbele a Alma…" aria-label="Mensaje para Alma"></textarea>
+        <button class="send-btn" id="btnSend" aria-label="Enviar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>
+        </button>
+        <button class="send-btn stop" id="btnStop" aria-label="Detener" hidden>
+          <svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>
+        </button>
+      </div>
+      <p class="composer-hint">Alma corre en local con Ollama · Enter para enviar</p>
+    </div>
+  </main>
+</div>
+
+<!-- ============ SETTINGS MODAL ============ -->
+<div class="modal-backdrop" id="settingsModal" hidden>
+  <div class="modal glass" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+    <div class="modal-head">
+      <h3 id="settingsTitle">Ajustes</h3>
+      <button class="icon-btn" data-close aria-label="Cerrar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <label class="field">
+        <span>Endpoint de Ollama</span>
+        <input type="url" id="setEndpoint" placeholder="http://localhost:11434" inputmode="url">
+      </label>
+      <label class="field">
+        <span>Modelo</span>
+        <input type="text" id="setModel" list="modelList" placeholder="llama3.2:3b" autocomplete="off">
+        <datalist id="modelList"></datalist>
+      </label>
+      <label class="field">
+        <span>Temperatura <b id="tempVal">0.7</b></span>
+        <input type="range" id="setTemp" min="0" max="2" step="0.1" value="0.7">
+      </label>
+      <label class="field">
+        <span>System prompt</span>
+        <textarea id="setSystem" rows="5"></textarea>
+      </label>
+      <div class="conn-test">
+        <button class="btn-primary" id="btnTestConn">Probar conexión</button>
+        <p class="conn-result" id="connResult" aria-live="polite"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ NOTE MODAL ============ -->
+<div class="modal-backdrop" id="noteModal" hidden>
+  <div class="modal glass" role="dialog" aria-modal="true" aria-labelledby="noteTitle">
+    <div class="modal-head">
+      <h3 id="noteTitle">Nota de conocimiento</h3>
+      <button class="icon-btn" data-close aria-label="Cerrar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <label class="field">
+        <span>Título</span>
+        <input type="text" id="noteTitleInput" placeholder="Ej. Apuntes de armonía" maxlength="80">
+      </label>
+      <label class="field">
+        <span>Contenido</span>
+        <textarea id="noteContentInput" rows="8" placeholder="Escribe aquí lo que Alma debe saber…"></textarea>
+      </label>
+      <div class="modal-actions">
+        <button class="btn-danger-ghost" id="btnDeleteNote" hidden>Eliminar</button>
+        <span class="spacer"></span>
+        <button class="btn-ghost" data-close>Cancelar</button>
+        <button class="btn-primary" id="btnSaveNote">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MEMORY MODAL ============ -->
+<div class="modal-backdrop" id="memoryModal" hidden>
+  <div class="modal glass" role="dialog" aria-modal="true" aria-labelledby="memoryTitle">
+    <div class="modal-head">
+      <h3 id="memoryTitle">Recuerdo</h3>
+      <button class="icon-btn" data-close aria-label="Cerrar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <label class="field">
+        <span>Alma debe recordar que…</span>
+        <textarea id="memoryInput" rows="4" placeholder="Ej. Jonathan toca clarinete y estudia educación musical"></textarea>
+      </label>
+      <div class="modal-actions">
+        <button class="btn-danger-ghost" id="btnDeleteMemory" hidden>Eliminar</button>
+        <span class="spacer"></span>
+        <button class="btn-ghost" data-close>Cancelar</button>
+        <button class="btn-primary" id="btnSaveMemory">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ CONFIRM MODAL ============ -->
+<div class="modal-backdrop" id="confirmModal" hidden>
+  <div class="modal glass modal-sm" role="dialog" aria-modal="true">
+    <div class="modal-body">
+      <h3 id="confirmTitle">¿Eliminar?</h3>
+      <p class="muted" id="confirmText"></p>
+      <div class="modal-actions">
+        <span class="spacer"></span>
+        <button class="btn-ghost" data-close>Cancelar</button>
+        <button class="btn-danger" id="btnConfirmYes">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
