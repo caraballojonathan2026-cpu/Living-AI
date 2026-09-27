@@ -211,6 +211,16 @@
       </button>
     </div>
     <div class="modal-body">
+      <div class="gguf-box">
+        <div class="browser-head">
+          <strong>📱 Modelo local (GGUF)</strong>
+          <span class="browser-status" id="ggufStatus">Sin modelo</span>
+        </div>
+        <p class="muted">Corre un <code>.gguf</code> directo en el navegador, sin Ollama ni PC.</p>
+        <button class="btn-primary btn-block" id="btnLoadGgufSettings">📂 Cargar modelo GGUF</button>
+        <p class="muted tiny">¿No tienes un archivo? Descarga uno gratis desde la píldora de conexión.</p>
+      </div>
+
       <label class="field">
         <span>Servidor de Ollama</span>
         <select id="setServer"></select>

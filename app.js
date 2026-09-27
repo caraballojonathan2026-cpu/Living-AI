@@ -301,7 +301,7 @@ function loadSettingsIntoForm() {
   $("#tempVal").textContent = Number(S.settings.temperature).toFixed(1);
   $("#setSystem").value = S.settings.systemPrompt;
 }
-function openSettings() { loadSettingsIntoForm(); $("#connResult").textContent = ""; $("#connResult").className = "conn-result"; openModal("#settingsModal"); }
+function openSettings() { loadSettingsIntoForm(); renderGgufSettings(); $("#connResult").textContent = ""; $("#connResult").className = "conn-result"; openModal("#settingsModal"); }
 $("#btnSettings").addEventListener("click", openSettings);
 $("#btnSettingsMobile").addEventListener("click", openSettings);
 $("#btnOpenSettings").addEventListener("click", openSettings);
@@ -523,8 +523,8 @@ async function loadBrowserModel(kind) {
     S.settings.browserModel = { kind, id: kind === "preset" ? $("#presetModel").value : null, name };
     save();
     browserProgressUI(false);
-    renderBrowserCard(); renderServers(); updateTopbar();
-    setConn("ok", "En este navegador · listo");
+    setActiveServer("srv_browser");
+    renderBrowserCard(); renderGgufSettings();
     toast("Modelo listo — ya puedes chatear 🖤");
   } catch (e) {
     browserProgressUI(false);
@@ -540,6 +540,19 @@ $("#btnUseBrowser").addEventListener("click", () => {
   setActiveServer("srv_browser");
   closeModal("#serverModal");
 });
+$("#btnLoadGgufSettings").addEventListener("click", () => $("#fileGguf").click());
+
+function renderGgufSettings() {
+  const el = $("#ggufStatus");
+  if (!el) return;
+  if (browserLoaded()) {
+    el.textContent = "✓ " + browserModelName();
+    el.className = "browser-status ok";
+  } else {
+    el.textContent = "Sin modelo";
+    el.className = "browser-status";
+  }
+}
 
 /* ---------- estado de conexión ---------- */
 function setConn(state, text) {
