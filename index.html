@@ -165,6 +165,31 @@
       </button>
     </div>
     <div class="modal-body">
+      <div class="browser-card">
+        <div class="browser-head">
+          <strong>📱 En este navegador</strong>
+          <span class="browser-status" id="browserStatus">Sin modelo</span>
+        </div>
+        <p class="muted">Corre un <code>.gguf</code> directamente aquí, sin Ollama ni PC. Se descarga una vez y queda guardado en el navegador.</p>
+        <p class="muted tiny" id="gpuNote"></p>
+        <div class="browser-progress" id="browserProgress" hidden>
+          <div class="browser-bar-track"><div class="browser-bar" id="browserBar"></div></div>
+          <span id="browserPct" class="muted tiny"></span>
+        </div>
+        <div class="browser-row">
+          <select id="presetModel" aria-label="Modelo para descargar">
+            <option value="qwen05">Qwen2.5 0.5B · ~500 MB · rápido, ideal para teléfonos</option>
+            <option value="qwen15">Qwen2.5 1.5B · ~1 GB · mejor calidad, tablets y PC</option>
+          </select>
+          <button class="btn-primary" id="btnLoadPreset">Descargar</button>
+        </div>
+        <div class="browser-row">
+          <button class="btn-ghost" id="btnPickGguf">Elegir archivo .gguf</button>
+          <input type="file" id="fileGguf" accept=".gguf" hidden>
+          <button class="btn-primary" id="btnUseBrowser" hidden>Usar en el chat</button>
+        </div>
+      </div>
+      <h4 class="server-subtitle">Servidores Ollama</h4>
       <p class="muted">Elige dónde corre Ollama. Desde tu teléfono apunta a tu PC con su IP local (ej. <code>http://192.168.1.50:11434</code>); ambos deben estar en el mismo Wi-Fi.</p>
       <ul class="server-list" id="serverList"></ul>
       <div class="server-add">

@@ -369,3 +369,22 @@ input,textarea{font-family:inherit;color:var(--text)}
 .field select{background:rgba(0,0,0,.35);border:1px solid var(--stroke);border-radius:11px;padding:12px 14px;font-size:.9rem;outline:none;width:100%;color:var(--text)}
 .field select:focus{border-color:var(--violet);box-shadow:0 0 0 3px rgba(139,92,246,.14)}
 .field .muted{margin-top:2px}
+
+/* ---------- modo navegador (GGUF local) ---------- */
+.browser-card{border:1px solid rgba(139,92,246,.35);background:rgba(139,92,246,.07);border-radius:14px;padding:13px;margin-bottom:14px}
+.browser-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
+.browser-head strong{font-size:.92rem}
+.browser-status{font-size:.75rem;color:var(--muted);text-align:right}
+.browser-status.ok{color:#4ade80}
+.browser-status.cached{color:#fbbf24}
+.browser-status.loading{color:#a78bfa}
+.browser-card .muted{margin:4px 0}
+.browser-card .tiny{font-size:.76rem}
+.browser-row{display:flex;gap:8px;margin-top:10px}
+.browser-row select{flex:1;min-width:0;background:rgba(0,0,0,.35);border:1px solid var(--stroke);border-radius:11px;padding:11px 12px;font-size:.82rem;outline:none;color:var(--text)}
+.browser-row select:focus{border-color:var(--violet)}
+.browser-row .btn-primary,.browser-row .btn-ghost{white-space:nowrap}
+.browser-progress{margin-top:10px}
+.browser-bar-track{height:8px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}
+.browser-bar{height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--violet),var(--cyan));transition:width .2s}
+.server-subtitle{font-size:.85rem;margin:2px 0 2px;color:var(--text)}

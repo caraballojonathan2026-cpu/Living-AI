@@ -32,8 +32,12 @@ function defaultState() {
     knowledge: [],
     memory: [],
     settings: {
-      servers: [{ id: "srv_local", name: "Este dispositivo", url: "http://localhost:11434" }],
+      servers: [
+        { id: "srv_local", name: "Este dispositivo", url: "http://localhost:11434" },
+        { id: "srv_browser", name: "En este navegador", url: "", browser: true },
+      ],
       activeServerId: "srv_local",
+      browserModel: null, // { kind:'preset'|'file', id, name } último modelo local usado
       model: "llama3.2:3b",
       temperature: 0.7,
       systemPrompt: DEFAULT_SYSTEM,
@@ -53,13 +57,18 @@ try {
   if (!S.settings.servers.some((s) => s.id === S.settings.activeServerId)) {
     S.settings.activeServerId = S.settings.servers[0].id;
   }
+  // entrada del modo navegador (GGUF local) para instalaciones anteriores
+  if (!S.settings.servers.some((s) => s.id === "srv_browser")) {
+    S.settings.servers.push({ id: "srv_browser", name: "En este navegador", url: "", browser: true });
+  }
   delete S.settings.endpoint;
 } catch { S = defaultState(); }
 const save = () => { try { localStorage.setItem(LS_KEY, JSON.stringify(S)); } catch {} };
 
 const activeConv = () => S.conversations.find((c) => c.id === S.activeId) || null;
 const activeServer = () => S.settings.servers.find((s) => s.id === S.settings.activeServerId) || S.settings.servers[0];
-const serverUrl = () => activeServer().url.replace(/\/+$/, "");
+const serverUrl = () => (activeServer().url || "").replace(/\/+$/, "");
+const isBrowserBackend = () => activeServer().browser === true;
 
 /* ---------- markdown (básico y seguro) ---------- */
 function md(src) {
@@ -283,7 +292,7 @@ function loadSettingsIntoForm() {
   S.settings.servers.forEach((s) => {
     const o = document.createElement("option");
     o.value = s.id;
-    o.textContent = `${s.name} · ${s.url}`;
+    o.textContent = s.browser ? `${s.name} · GGUF local` : `${s.name} · ${s.url}`;
     sel.appendChild(o);
   });
   sel.value = S.settings.activeServerId;
@@ -370,7 +379,7 @@ $("#btnDeleteMemory").addEventListener("click", () => {
 function setActiveServer(id, retest = true) {
   if (!S.settings.servers.some((s) => s.id === id)) return;
   S.settings.activeServerId = id;
-  save(); renderServers(); loadSettingsIntoForm();
+  save(); renderServers(); loadSettingsIntoForm(); updateTopbar();
   setConn("idle");
   if (retest) testConnection(true);
   toast("Servidor: " + activeServer().name);
@@ -379,18 +388,23 @@ function renderServers() {
   const ul = $("#serverList");
   ul.innerHTML = "";
   S.settings.servers.forEach((s) => {
+    const isBrowser = s.browser === true;
     const li = document.createElement("li");
     li.className = "server-item" + (s.id === S.settings.activeServerId ? " active" : "");
+    const sub = isBrowser
+      ? (browserLoaded() ? "\u2713 " + browserModelName() : "Sin modelo cargado")
+      : s.url;
     li.innerHTML = `<button class="server-main" title="Usar este servidor">
-        <span class="server-name">${esc(s.name)}${s.id === S.settings.activeServerId ? " · activo" : ""}</span>
-        <span class="server-url">${esc(s.url)}</span>
+        <span class="server-name">${isBrowser ? "\U0001f4f1 " : ""}${esc(s.name)}${s.id === S.settings.activeServerId ? " · activo" : ""}</span>
+        <span class="server-url">${esc(sub)}</span>
       </button>
-      <button class="mini-btn danger" title="Eliminar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>`;
+      ${isBrowser ? "" : `<button class="mini-btn danger" title="Eliminar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>`}`;
     li.querySelector(".server-main").addEventListener("click", () => {
       setActiveServer(s.id);
-      closeModal("#serverModal");
+      if (!(isBrowser && !browserLoaded())) closeModal("#serverModal");
     });
-    li.querySelector(".mini-btn").addEventListener("click", () => {
+    const delBtn = li.querySelector(".mini-btn");
+    if (delBtn) delBtn.addEventListener("click", () => {
       if (S.settings.servers.length <= 1) { toast("No puedes eliminar el único servidor", true); return; }
       askConfirm("¿Eliminar servidor?", `"${s.name}" se quitará de la lista.`, () => {
         S.settings.servers = S.settings.servers.filter((x) => x.id !== s.id);
@@ -404,6 +418,8 @@ function renderServers() {
 }
 function openServerModal() {
   renderServers();
+  renderBrowserCard();
+  browserProgressUI(false);
   $("#newServerName").value = "";
   $("#newServerUrl").value = "";
   openModal("#serverModal");
@@ -421,6 +437,110 @@ $("#btnAddServer").addEventListener("click", () => {
   toast("Servidor agregado — tócalo para usarlo");
 });
 
+/* ---------- GGUF en el navegador ---------- */
+const PRESETS = {
+  qwen05: {
+    name: "Qwen2.5 0.5B",
+    url: "https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF/resolve/main/qwen2.5-0.5b-instruct-q8_0.gguf",
+    size: "~500 MB",
+    desc: "Rápido · ideal para teléfonos",
+  },
+  qwen15: {
+    name: "Qwen2.5 1.5B",
+    url: "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF/resolve/main/qwen2.5-1.5b-instruct-q4_k_m.gguf",
+    size: "~1 GB",
+    desc: "Mejor calidad · tablets y PC",
+  },
+};
+
+let ggufMod = null, ggufFailed = false;
+async function getGguf() {
+  if (ggufFailed) throw new Error("motor local no disponible");
+  if (!ggufMod) {
+    try { ggufMod = await import("./gguf.js"); }
+    catch (e) { ggufFailed = true; throw e; }
+  }
+  return ggufMod;
+}
+const browserLoaded = () => !!(ggufMod && ggufMod.isLoaded());
+const browserModelName = () => (ggufMod && ggufMod.modelName()) || null;
+
+function fmtMB(n) {
+  if (!n || n <= 0) return "";
+  return (n / 1048576).toFixed(n > 104857600 ? 0 : 1) + " MB";
+}
+
+function renderBrowserCard() {
+  const status = $("#browserStatus");
+  const loaded = browserLoaded();
+  if (loaded) {
+    status.textContent = "✓ " + browserModelName();
+    status.className = "browser-status ok";
+  } else if (S.settings.browserModel) {
+    status.textContent = "En caché: " + S.settings.browserModel.name + " — toca Descargar para cargarlo";
+    status.className = "browser-status cached";
+  } else {
+    status.textContent = "Sin modelo";
+    status.className = "browser-status";
+  }
+  $("#btnUseBrowser").hidden = !loaded;
+  const gpuNote = $("#gpuNote");
+  getGguf().then((g) => {
+    gpuNote.textContent = g.webGpuSupported()
+      ? "Tu navegador tiene WebGPU: irá más rápido."
+      : "Tu navegador no tiene WebGPU: usará CPU (más lento, pero funciona).";
+  }).catch(() => { gpuNote.textContent = ""; });
+}
+
+function browserProgressUI(loading) {
+  $("#browserProgress").hidden = !loading;
+  if (!loading) { $("#browserBar").style.width = "0%"; $("#browserPct").textContent = ""; }
+}
+
+async function loadBrowserModel(kind) {
+  let gguf;
+  try { gguf = await getGguf(); }
+  catch { toast("No se pudo cargar el motor local (revisa tu internet)", true); return; }
+  const preset = kind === "preset" ? PRESETS[$("#presetModel").value] : null;
+  const file = kind === "file" ? $("#fileGguf").files[0] : null;
+  if (kind === "file" && !file) return;
+  const name = kind === "preset" ? preset.name : file.name;
+  $("#browserStatus").textContent = "Cargando " + name + "…";
+  $("#browserStatus").className = "browser-status loading";
+  browserProgressUI(true);
+  try {
+    if (kind === "preset") {
+      await gguf.loadFromUrl(preset.url, preset.name, (loaded, total) => {
+        const pct = total > 0 ? Math.round((loaded / total) * 100) : 0;
+        $("#browserBar").style.width = pct + "%";
+        $("#browserPct").textContent = total > 0 ? `${pct}% · ${fmtMB(loaded)} de ${fmtMB(total)}` : fmtMB(loaded);
+      });
+    } else {
+      await gguf.loadFromFile(file, () => {
+        $("#browserPct").textContent = "Leyendo archivo…";
+      });
+    }
+    S.settings.browserModel = { kind, id: kind === "preset" ? $("#presetModel").value : null, name };
+    save();
+    browserProgressUI(false);
+    renderBrowserCard(); renderServers(); updateTopbar();
+    setConn("ok", "En este navegador · listo");
+    toast("Modelo listo — ya puedes chatear 🖤");
+  } catch (e) {
+    browserProgressUI(false);
+    renderBrowserCard();
+    toast("No se pudo cargar el modelo", true);
+  }
+}
+
+$("#btnLoadPreset").addEventListener("click", () => loadBrowserModel("preset"));
+$("#btnPickGguf").addEventListener("click", () => $("#fileGguf").click());
+$("#fileGguf").addEventListener("change", () => loadBrowserModel("file"));
+$("#btnUseBrowser").addEventListener("click", () => {
+  setActiveServer("srv_browser");
+  closeModal("#serverModal");
+});
+
 /* ---------- estado de conexión ---------- */
 function setConn(state, text) {
   const pill = $("#connPill");
@@ -432,6 +552,14 @@ function setConn(state, text) {
   else { label.textContent = "Sin verificar"; }
 }
 async function testConnection(quiet = false) {
+  if (isBrowserBackend()) {
+    if (browserLoaded()) {
+      setConn("ok", "En este navegador · listo");
+      return true;
+    }
+    setConn("bad", "En este navegador · sin modelo");
+    return false;
+  }
   const base = serverUrl();
   if (!quiet) setConn("checking");
   try {
@@ -466,10 +594,84 @@ $("#btnRetryConn").addEventListener("click", async () => {
   if (ok) { $("#offlineCard").hidden = true; toast("Alma está en línea"); }
 });
 
+/* ---------- chat con modelo GGUF en el navegador ---------- */
+let stopLocal = false;
+async function sendMessageLocal(content) {
+  let gguf;
+  try { gguf = await getGguf(); }
+  catch { toast("No se pudo cargar el motor local", true); return; }
+  if (!gguf.isLoaded()) {
+    toast("Primero carga un modelo .gguf", true);
+    openServerModal();
+    return;
+  }
+  let conv = activeConv();
+  if (!conv) conv = newConversation();
+  conv.messages.push({ role: "user", content, ts: Date.now() });
+  if (conv.messages.length === 1) {
+    conv.title = content.slice(0, 42) + (content.length > 42 ? "…" : "");
+  }
+  $("#composer").value = "";
+  autogrow();
+  save(); renderChatList(); renderChat();
+  $("#welcome").style.display = "none";
+
+  const chat = $("#chat");
+  const el = messageEl({ role: "assistant", content: "", ts: Date.now() });
+  const bubble = el.querySelector(".bubble");
+  bubble.classList.add("streaming");
+  chat.appendChild(el);
+  scrollBottom();
+
+  const history = conv.messages.slice(-21, -1).map((m) => ({ role: m.role, content: m.content }));
+  const messages = [
+    { role: "system", content: buildSystemPrompt() },
+    ...history,
+    { role: "user", content },
+  ];
+  stopLocal = false;
+  aborter = { abort() { stopLocal = true; } };
+  setGenerating(true);
+  let full = "";
+  try {
+    full = await gguf.chat(messages, {
+      temperature: S.settings.temperature,
+      onToken: (piece, f) => { full = f; bubble.innerHTML = md(full); scrollBottom(true); },
+      shouldStop: () => stopLocal,
+    });
+    bubble.classList.remove("streaming");
+    bubble.innerHTML = md(full) || "<p><em>Sin respuesta del modelo.</em></p>";
+    if (full.trim()) {
+      conv.messages.push({ role: "assistant", content: full, ts: Date.now() });
+      save();
+    }
+    const fresh = messageEl({ role: "assistant", content: full, ts: Date.now() });
+    el.replaceWith(fresh);
+    scrollBottom();
+  } catch (err) {
+    bubble.classList.remove("streaming");
+    if (stopLocal && full.trim()) {
+      conv.messages.push({ role: "assistant", content: full + "\n\n*(respuesta detenida)*", ts: Date.now() });
+      save(); renderChat();
+    } else if (!stopLocal) {
+      el.remove();
+      toast("El modelo local falló al responder", true);
+    } else {
+      el.remove();
+    }
+  } finally {
+    aborter = null;
+    setGenerating(false);
+    renderChatList();
+  }
+}
+
 /* ---------- chat con Ollama (streaming) ---------- */
 let aborter = null;
 function updateTopbar() {
-  $("#topbarModel").textContent = "Alma · " + (S.settings.model || "sin modelo");
+  $("#topbarModel").textContent = isBrowserBackend()
+    ? "Alma · " + (browserModelName() || "sin modelo")
+    : "Alma · " + (S.settings.model || "sin modelo");
 }
 function setGenerating(on) {
   $("#btnSend").hidden = on;
@@ -481,6 +683,7 @@ $("#btnStop").addEventListener("click", () => aborter?.abort());
 async function sendMessage(text) {
   const content = (text ?? $("#composer").value).trim();
   if (!content || aborter) return;
+  if (isBrowserBackend()) return sendMessageLocal(content);
   let conv = activeConv();
   if (!conv) conv = newConversation();
   conv.messages.push({ role: "user", content, ts: Date.now() });
